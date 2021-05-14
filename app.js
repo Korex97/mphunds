@@ -7,7 +7,7 @@ var mongoose = require("mongoose");
 
 var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
-var uri = "mongodb+srv://mphunds@cluster0.bb9cp.mongodb.net/myFirstDatabase?retryWrites=true&w=majority"
+var uri = "mongodb+srv://mphunds:mphunds@cluster0.bb9cp.mongodb.net/mphunds?retryWrites=true&w=majority"
 mongoose.connect(uri, {useNewUrlParser: true, useUnifiedTopology: true});
 var database = mongoose.connection;
 database.on("error", console.error.bind(console, "Mongoose Connection Error"));
