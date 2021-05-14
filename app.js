@@ -11,7 +11,7 @@ var uri = "mongodb+srv://mphunds:un@cluster0.bb9cp.mongodb.net/myFirstDatabase?r
 mongoose.connect(uri, {useNewUrlParser: true, useUnifiedTopology: true});
 var database = mongoose.connection;
 database.on("error", console.error.bind(console, "Mongoose Connection Error"));
-connection.once('open', () => {
+database.once('open', () => {
   console.log("MongoDB daatabase connection established successfully");
 });
 
