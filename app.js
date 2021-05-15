@@ -2,6 +2,7 @@ var createError = require('http-errors');
 var express = require('express');
 var passport = require("passport");
 var session = require("express-session");
+var crypto = require("crypto");
 // require("dotenv").config();
 var path = require('path');
 var cookieParser = require('cookie-parser');
