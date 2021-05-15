@@ -7,6 +7,7 @@ var path = require('path');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
 var mongoose = require("mongoose");
+// var flash = require('connect-flash');
 
 var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
@@ -36,7 +37,7 @@ app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 app.use(session({
   key: 'user_sid',
-  secret: process.env.SESSION_SECRET,
+  secret: crypto.randomBytes(20).toString("hex"),
   resave: true,
   saveUninitialized: false,
   cookie: {
