@@ -34,7 +34,7 @@ router.get('/tos', function(req, res, next) {
   res.render('tos');
 });
 
-router.get('/signin', function(req, res, next) {
+router.get('/signup', function(req, res, next) {
   res.render('signin');
 });
 
