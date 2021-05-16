@@ -8,7 +8,7 @@ var path = require('path');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
 var mongoose = require("mongoose");
-// var flash = require('connect-flash');
+var flash = require('connect-flash');
 
 var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
@@ -25,7 +25,7 @@ database.once('open', () => {
 var app = express();
 
 //Configuration
-// require("./config/passport")(passport);
+require("./config/passport")(passport);
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
@@ -48,6 +48,7 @@ app.use(session({
 }));
 app.use(passport.initialize());
 app.use(passport.session());
+app.use(flash());
 
 app.use('/', indexRouter);
 app.use('/users', usersRouter);
