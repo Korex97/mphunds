@@ -27,13 +27,13 @@ module.exports = function(passport) {
             console.log('password', password);
 
             if (!user){
-                return done(null, false, req.flash("Login_Message", "Email not registered"));
+                return done(null, false, req.flash("message", "Email not registered"));
             }
             if (!user.validPassword(password))
                 return done(
                     null,
                     false,
-                    req.flash("Login_Message", "Wrong Password")
+                    req.flash("message", "Wrong Password")
                 )
             return done(null, user)
         })
