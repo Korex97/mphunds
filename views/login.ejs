@@ -10,14 +10,14 @@
 <body>
     
     <section class="login">
-        <%- include ("/partials/messages") %>
+        <%- include ("./partials/messages") %>
         <div class="login-row">
             <div class="login-col-1">
                 <img src="images/mphfund.jpg" alt="invest">
             </div>
             <div class="login-col-2">
                 <h2>Mphfunds</h2>
-                <form action="">
+                <form action="/login" method="POST">
                     <input type="text" name="password" id="" placeholder="Password">
                     <input type="password" name="passowrd" id="" placeholder="Password">
                     <button type="submit">Login</button>
