@@ -40,11 +40,12 @@ router.get('/tos', function(req, res, next) {
 });
 
 router.get('/signup', function(req, res, next) {
+  req.flash("Signup_Message", "Please Fill in your details")
   res.render('signin');
 });
 
 router.get('/login', function(req, res, next) {
-  req.flash("Signup_Message", "Please Fill in your details")
+  
   res.render('login');
 });
 
