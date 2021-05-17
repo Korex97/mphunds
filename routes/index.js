@@ -70,7 +70,7 @@ router.post("/signup", (req, res) => {
     // req.flash("Signup_Message", "Password Must be More than 6 characters");
     res.json("password is not up to 6 characters")
   }
-  if ( password) {
+  if ( password == confirmPassword) {
     res.json({firstname, lastname, password, referral, confirmPassword ,username, email})
     // User.findOne({email: email})
     //   .then( user => {
