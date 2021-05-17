@@ -66,67 +66,65 @@ router.post("/login", (req, res) => {
 router.post("/signup", (req, res) => {
   const {firstname, lastname, password, referral, confirmPassword ,username, email} = req.body;
   
-  const {wellFormed, validDomain, validMailbox} = emailValid.verify(email);
+  // const {wellFormed, validDomain, validMailbox} = emailValid.verify(email);
 
-  res.json({
-    validDomain: validDomain,
-    wellFormed: wellFormed,
-    validMailbox: validMailbox
-  })
-  // if (firstname || lastname || password || confirmPassword || email || username) {
-  //   req.flash("Signup_Message", "Please Fill Out All Fields");
-  // }
-  // if (password.length < 6){
-  //   req.flash("Signup_Message", "Password Must be More than 6 characters");
-  // }
-  // if ( password == confirmPassword) {
-  //   req.flash("Signup_Message", "Password Does Not Match")
-  // } 
-  // if (validate == true){
-  //   User.findOne({email: email})
-  //     .then( user => {
-  //       if (user){
-  //         req.flash("Signup Message", "Email is already Registered");
-  //         req.render("signin");
-  //       }else{
-  //         var code = referralCodeGenerator.alphaNumeric('lowercase', 3, 3, username);
-  //         const newUser = new User({
-  //           firstname: firstname,
-  //           lastname: lastname,
-  //           username: username,
-  //           email: email,
-  //           password: password,
-  //           refercode: code
-  //         });
+  // res.json({
+  //   validDomain: validDomain,
+  //   wellFormed: wellFormed,
+  //   validMailbox: validMailbox
+  // })
+  if (firstname || lastname || password || confirmPassword || email || username) {
+    req.flash("Signup_Message", "Please Fill Out All Fields");
+  }
+  if (password.length < 6){
+    req.flash("Signup_Message", "Password Must be More than 6 characters");
+  }
+  if ( password == confirmPassword) {
+    User.findOne({email: email})
+      .then( user => {
+        if (user){
+          req.flash("Signup Message", "Email is already Registered");
+          req.render("signin");
+        }else{
+          var code = referralCodeGenerator.alphaNumeric('lowercase', 3, 3, username);
+          const newUser = new User({
+            firstname: firstname,
+            lastname: lastname,
+            username: username,
+            email: email,
+            password: password,
+            refercode: code
+          });
 
-  //         User.findOne({refercode: referral})
-  //             .then(value => {
-  //               if (value){
-  //                 newUser.referred = value.email
-  //               }
-  //             })
+          User.findOne({refercode: referral})
+              .then(value => {
+                if (value){
+                  newUser.referred = value.email
+                }
+              })
 
-  //         bcrypt.genSalt(10, (err, salt) => {
-  //           bcrypt.hash(newUser.password, salt, (err, hash) => {
-  //             if (err) throw err;
-  //             newUser.password = hash;
+          bcrypt.genSalt(10, (err, salt) => {
+            bcrypt.hash(newUser.password, salt, (err, hash) => {
+              if (err) throw err;
+              newUser.password = hash;
 
-  //             newUser.save()
-  //               .then(user => {
-  //                 if (user){
-  //                   console.log(user);
-  //                   req.flash(`Signup Message`, 'You are now Registered and can login');
-  //                   res.redirect('/signup')
-  //                 }
-  //               })
-  //               .catch( err => console.log(err));
-  //           })
-  //         })
-  //       }
-  //     })
-  // }else {
-  //   // req.flash("Signup_Message", "Please Enter a Valid Email")
-  //   res.json("Please Enter a Valid Email")
-  // }
+              newUser.save()
+                .then(user => {
+                  if (user){
+                    console.log(user);
+                    req.flash(`Signup Message`, 'You are now Registered and can login');
+                    res.redirect('/signup')
+                  }
+                })
+                .catch( err => console.log(err));
+            })
+          })
+        }
+      })
+
+  }else{
+    req.flash("Signup_Message", "Password Does Not Match");
+    res.redirect("/signup");
+  }
 })
 module.exports = router;
