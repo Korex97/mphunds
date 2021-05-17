@@ -37,7 +37,7 @@ app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 app.use(session({
-  secret: secret,
+  secret: crypto.randomBytes(20).toString("hex"),
   resave: true,
   saveUninitialized: false,
   cookie: {
