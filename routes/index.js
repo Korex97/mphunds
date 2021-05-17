@@ -118,7 +118,8 @@ router.post("/signup", (req, res) => {
       res.json({
         Error: "Password Does Not Match",
         Password: password,
-        confirmation: confirmPassword})
+        confirmation: confirmPassword
+      })
     // req.flash("Signup_Message", "Password Does Not Match");
     // res.redirect("/signup");
   }
