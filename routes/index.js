@@ -77,40 +77,48 @@ router.post("/signup", (req, res) => {
           req.flash("signup_msg", "Email is already Registered");
           res.redirect("/signup")
         }else{
-          var code = referralCodeGenerator.alphaNumeric('lowercase', 3, 3, username);
-          const newUser = new User({
-            firstname: firstname,
-            lastname: lastname,
-            username: username,
-            email: email,
-            password: password,
-            refercode: code
-          });
+          User.findOne({username: username})
+            .then( available => {
+              if (available) {
+                req.flash("signup_msg", "Username is already taken");
+                res.redirect("/signup")
+              }else{
+                var code = referralCodeGenerator.alphaNumeric('lowercase', 3, 3, username);
+                const newUser = new User({
+                    firstname: firstname,
+                    lastname: lastname,
+                    username: username,
+                    email: email,
+                    password: password,
+                    refercode: code
+                });
 
-          User.findOne({refercode: referral})
-              .then(value => {
-                if (value){
-                  newUser.referred = value.email
+                User.findOne({refercode: referral})
+                    .then(value => {
+                        if (value){
+                            newUser.referred = value.email
+                        }
+                    })
+
+                bcrypt.genSalt(10, (err, salt) => {
+                    bcrypt.hash(newUser.password, salt, (err, hash) => {
+                        if (err) throw err;
+                        newUser.password = hash;
+
+                        newUser.save()
+                            .then(user => {
+                                if (user){
+                                    console.log(user);
+                                    req.flash(`signup_msg`, 'You are now Registered and can login');
+                                    res.redirect('/login');
+                                }
+                              })
+                            .catch( err => console.log(err));
+                      })
+                  })
                 }
-              })
-
-          bcrypt.genSalt(10, (err, salt) => {
-            bcrypt.hash(newUser.password, salt, (err, hash) => {
-              if (err) throw err;
-              newUser.password = hash;
-
-              newUser.save()
-                .then(user => {
-                  if (user){
-                    console.log(user);
-                    req.flash(`signup_msg`, 'You are now Registered and can login');
-                    res.redirect('/login');
-                  }
-                })
-                .catch( err => console.log(err));
             })
-          })
-        }
+          }
       })
 
   }else{
