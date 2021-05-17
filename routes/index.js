@@ -66,8 +66,8 @@ router.post("/signup", (req, res) => {
   const {firstname, lastname, password, referral, confirmPassword ,username, email} = req.body;
   
   if (password.length < 6){
-    // req.flash("Signup_Message", "Password Must be More than 6 characters");
-    res.render("signin", {message: "password is not up to 6 characters"})
+    req.flash("signup_msg", "Password Must be More than 6 characters");
+    res.redirect("/signup")
     // res.json("password is not up to 6 characters")
   }
   if ( password == confirmPassword) {
