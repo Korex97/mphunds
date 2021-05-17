@@ -6,16 +6,6 @@ var User = require("../models/user.model");
 
 module.exports = function(passport) {
 
-    passport.serializeUser(function (user, done) {
-        done(null, user.id)
-    })
-
-    passport.deserializeUser( function (id, done) {
-        User.findById(id, (err, user) => {
-            done(err, user);
-        })
-    });
-
     passport.use("local-login", new LocalStrategy({
         usernameField: 'email',
         passReqToCallback: true
@@ -41,6 +31,15 @@ module.exports = function(passport) {
         })
         .catch(err => console.log(err));
     
-    }
-    ))
+    }));
+
+    passport.serializeUser(function (user, done) {
+        done(null, user.id)
+    })
+
+    passport.deserializeUser( function (id, done) {
+        User.findById(id, (err, user) => {
+            done(err, user);
+        })
+    });
 }
