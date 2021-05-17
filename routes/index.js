@@ -61,7 +61,7 @@ router.post("/login", (req, res) => {
 
 router.post("/signup", (req, res) => {
   const {firstname, lastname, password, referral, confirmPassword ,username, email} = req.body;
-  const validate = validator(email);
+  const validate = validator.validate(email)
   
   if (firstname || lastname || password || confirmPassword || email || username) {
     req.flash("Signup_Message", "Please Fill Out All Fields");
