@@ -11,14 +11,14 @@ module.exports = function(passport) {
     passport.use("local-login", new LocalStrategy({
         usernameField: 'email',
         passReqToCallback: true
-    }, (email, password, done) => {
+    }, (req, email, password, done) => {
         User.findOne({ 'email': email}, (err, user) => {
             if (err) return done(err);
             console.log("user", user);
             console.log('password', password);
 
             if (!user){
-                return done(null, false, {"message": "Email not registered"});
+                return done(null, false, req.flash('login_msg', "Email is not registered, please kindly signup"));
             }
             bcrypt.compare(password, user.password, (err, isMatch) => {
                 if (err) throw err;
@@ -26,7 +26,7 @@ module.exports = function(passport) {
                 if (isMatch) {
                     return done(null, user)
                 } else {
-                    return done(null, false, {message: "Password Incorrect"})
+                    return done(null, false, req.flash('login_msg', "Password is Incorrect"))
                 }
 
             })
