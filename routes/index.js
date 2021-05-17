@@ -65,20 +65,15 @@ router.post("/signup", (req, res) => {
   
   if (firstname || lastname || password || confirmPassword || email || username) {
     req.flash("Signup_Message", "Please Fill Out All Fields");
-    res.redirect("/signup")
-    
   }
   if (password.length < 6){
     req.flash("Signup_Message", "Password Must be More than 6 characters");
-    res.redirect("/signup");
   }
   if ( password == confirmPassword) {
     req.flash("Signup_Message", "Password Does Not Match")
-    res.redirect("/signup")
   } 
   if (validate == false){
     req.flash("Signup_Message", "Please Enter a Valid Email")
-    res.redirect("/signup")
   }else {
     User.findOne({email: email})
       .then( user => {
@@ -113,7 +108,7 @@ router.post("/signup", (req, res) => {
                   if (user){
                     console.log(user);
                     req.flash(`Signup Message`, 'You are now Registered and can login');
-                    res.redirect('/login');
+                    res.redirect('/signup')
                   }
                 })
                 .catch( err => console.log(err));
