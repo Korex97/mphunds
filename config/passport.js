@@ -29,7 +29,7 @@ module.exports = function(passport) {
             if (!user){
                 return done(null, false, req.flash("message", "Email not registered"));
             }
-            if (!user.validPassword(password))
+            if (user.validPassword(password))
                 return done(
                     null,
                     false,
