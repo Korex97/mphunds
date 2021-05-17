@@ -6,6 +6,8 @@ var User = require("../models/user.model");
 
 module.exports = function(passport) {
 
+    console.log("Login is working here");
+
     passport.use("local-login", new LocalStrategy({
         usernameField: 'email',
         passReqToCallback: true
