@@ -70,7 +70,7 @@ router.post("/signup", (req, res) => {
     // req.flash("Signup_Message", "Password Must be More than 6 characters");
     res.json("password is not up to 6 characters")
   }
-  if ( password == confirmPassword) {
+  if ( password) {
     res.json({firstname, lastname, password, referral, confirmPassword ,username, email})
     // User.findOne({email: email})
     //   .then( user => {
@@ -115,7 +115,10 @@ router.post("/signup", (req, res) => {
     //   })
 
   }else{
-      res.json("Password Does Not Match")
+      res.json({
+        Error: "Password Does Not Match",
+        Password: password,
+        confirmation: confirmPassword})
     // req.flash("Signup_Message", "Password Does Not Match");
     // res.redirect("/signup");
   }
