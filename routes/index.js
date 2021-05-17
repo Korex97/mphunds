@@ -68,60 +68,59 @@ router.post("/signup", (req, res) => {
   if (password.length < 6){
     req.flash("signup_msg", "Password Must be More than 6 characters");
     res.redirect("/signup")
-    // res.json("password is not up to 6 characters")
   }
   if ( password == confirmPassword) {
-    res.json({firstname, lastname, password, referral, confirmPassword ,username, email})
-    // User.findOne({email: email})
-    //   .then( user => {
-    //     if (user){
-    //       req.flash("Signup Message", "Email is already Registered");
-    //       req.render("signin");
-    //     }else{
-    //       var code = referralCodeGenerator.alphaNumeric('lowercase', 3, 3, username);
-    //       const newUser = new User({
-    //         firstname: firstname,
-    //         lastname: lastname,
-    //         username: username,
-    //         email: email,
-    //         password: password,
-    //         refercode: code
-    //       });
+    // res.json({firstname, lastname, password, referral, confirmPassword ,username, email})
+    User.findOne({email: email})
+      .then( user => {
+        if (user){
+          req.flash("signup_msg", "Email is already Registered");
+          res.redirect("/signup")
+        }else{
+          var code = referralCodeGenerator.alphaNumeric('lowercase', 3, 3, username);
+          const newUser = new User({
+            firstname: firstname,
+            lastname: lastname,
+            username: username,
+            email: email,
+            password: password,
+            refercode: code
+          });
 
-    //       User.findOne({refercode: referral})
-    //           .then(value => {
-    //             if (value){
-    //               newUser.referred = value.email
-    //             }
-    //           })
+          User.findOne({refercode: referral})
+              .then(value => {
+                if (value){
+                  newUser.referred = value.email
+                }
+              })
 
-    //       bcrypt.genSalt(10, (err, salt) => {
-    //         bcrypt.hash(newUser.password, salt, (err, hash) => {
-    //           if (err) throw err;
-    //           newUser.password = hash;
+          bcrypt.genSalt(10, (err, salt) => {
+            bcrypt.hash(newUser.password, salt, (err, hash) => {
+              if (err) throw err;
+              newUser.password = hash;
 
-    //           newUser.save()
-    //             .then(user => {
-    //               if (user){
-    //                 console.log(user);
-    //                 req.flash(`Signup Message`, 'You are now Registered and can login');
-    //                 res.redirect('/login');
-    //               }
-    //             })
-    //             .catch( err => console.log(err));
-    //         })
-    //       })
-    //     }
-    //   })
+              newUser.save()
+                .then(user => {
+                  if (user){
+                    console.log(user);
+                    req.flash(`signup_msg`, 'You are now Registered and can login');
+                    res.redirect('/login');
+                  }
+                })
+                .catch( err => console.log(err));
+            })
+          })
+        }
+      })
 
   }else{
-      res.json({
-        Error: "Password Does Not Match",
-        Password: password,
-        confirmation: confirmPassword
-      })
-    // req.flash("Signup_Message", "Password Does Not Match");
-    // res.redirect("/signup");
+      // res.json({
+      //   Error: "Password Does Not Match",
+      //   Password: password,
+      //   confirmation: confirmPassword
+      // })
+    req.flash("signup_msg", "Password Does Not Match");
+    res.redirect("/signup");
   }
 })
 module.exports = router;
