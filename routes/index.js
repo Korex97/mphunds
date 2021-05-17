@@ -44,8 +44,7 @@ router.get('/tos', function(req, res, next) {
 });
 
 router.get('/signup', function(req, res, next) {
-  req.flash("Signup_Message", "Please Fill in your details")
-  res.render('signin');
+  res.render('signin', {message: ""});
 });
 
 router.get('/login', function(req, res, next) {
@@ -68,7 +67,8 @@ router.post("/signup", (req, res) => {
   
   if (password.length < 6){
     // req.flash("Signup_Message", "Password Must be More than 6 characters");
-    res.json("password is not up to 6 characters")
+    res.render("signin", {message: "password is not up to 6 characters"})
+    // res.json("password is not up to 6 characters")
   }
   if ( password == confirmPassword) {
     res.json({firstname, lastname, password, referral, confirmPassword ,username, email})
