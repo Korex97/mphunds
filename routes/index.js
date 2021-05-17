@@ -66,7 +66,7 @@ router.post("/login", (req, res) => {
 router.post("/signup", (req, res) => {
   const {firstname, lastname, password, referral, confirmPassword ,username, email} = req.body;
   
-  if (firstname || lastname || password || confirmPassword || email || username) {
+  if (!firstname || !lastname || !password || !confirmPassword || !email || !username) {
     res.json("Please Fill in all Fields")
   }
   if (password.length < 6){
