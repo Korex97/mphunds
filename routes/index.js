@@ -1,15 +1,13 @@
 var express = require('express');
 const User = require('../models/user.model');
-const validator = require("deep-email-validator");
+const emailValidator = require("email-deep-validator");
 const referralCodeGenerator = require('referral-code-generator');
 const bcrypt = require("bcrypt");
 const passport = require('passport');
 const { ensureAuthenticated } = require('../config/auth');
 var router = express.Router();
 
-async function isEmailValid(email) {
-  validator.validate(email);
-}
+
 
 /* GET home page. */
 router.get('/', function(req, res, next) {
@@ -66,12 +64,13 @@ router.post("/login", (req, res) => {
 
 router.post("/signup", (req, res) => {
   const {firstname, lastname, password, referral, confirmPassword ,username, email} = req.body;
-  const {valid, reason, validators} = await isEmailValid(email);
+  const emailValid = new emailValidator();
+  const {wellFormed, validDomain, validMailbox} = await emailValid.verify(email);
 
   res.json({
-    valid: valid,
-    reason: reason,
-    validators: validators
+    validDomain: validDomain,
+    wellFormed: wellFormed,
+    validMailbox: validMailbox
   })
   // if (firstname || lastname || password || confirmPassword || email || username) {
   //   req.flash("Signup_Message", "Please Fill Out All Fields");
