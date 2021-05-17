@@ -65,7 +65,7 @@ router.post("/login", (req, res) => {
 router.post("/signup", (req, res) => {
   const {firstname, lastname, password, referral, confirmPassword ,username, email} = req.body;
   const emailValid = new emailValidator();
-  const {wellFormed, validDomain, validMailbox} = await emailValid.verify(email);
+  const {wellFormed, validDomain, validMailbox} = emailValid.verify(email);
 
   res.json({
     validDomain: validDomain,
