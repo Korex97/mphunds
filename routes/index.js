@@ -113,7 +113,7 @@ router.post("/signup", (req, res) => {
                   if (user){
                     console.log(user);
                     req.flash(`Signup Message`, 'You are now Registered and can login');
-                    res.redirect('/signup')
+                    res.redirect('/login');
                   }
                 })
                 .catch( err => console.log(err));
