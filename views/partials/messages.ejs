@@ -6,3 +6,12 @@
         </button>
     </div><br>
 <% } %>
+
+<% if(login_msg != '') { %>
+    <div class="alert alert-success alert-dismissible fade show" role="alert"><br>
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close">
+            <%= login_msg %>
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div><br>
+<% } %>

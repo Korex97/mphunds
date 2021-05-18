@@ -19,7 +19,7 @@ router.get('/contact', function(req, res, next) {
   res.render('contact');
 });
 
-router.get('/profile', function(req, res, next) {
+router.get('/profile', ensureAuthenticated, function(req, res, next) {
   res.render('profile');
 });
 
@@ -54,13 +54,11 @@ router.get('/login', function(req, res, next) {
 
 //Post Requests
 
-router.post("/login", (req, res, next) => {
-  passport.authenticate("local", {
-    successRedirect: "/profile",
-    failureRedirect: "/login",
-    failureFlash: true
-  })(req, res, next);
-})
+router.post("/login", passport.authenticate("local-login", {
+  successRedirect: "/profile",
+  failureRedirect: "/login",
+  failureFlash: true
+}))
 
 router.post("/signup", (req, res) => {
   const {firstname, lastname, password, referral, confirmPassword ,username, email} = req.body;
