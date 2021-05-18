@@ -13,7 +13,7 @@ module.exports = function(passport) {
         passwordField: 'password',
         passReqToCallback: true
     }, (req, email, password, done) => {
-        User.findOne({ 'local.email': email}, (err, user) => {
+        User.findOne({ 'email': email}, (err, user) => {
             if (err) return done(err);
             console.log("user", user);
             console.log('password', password);
