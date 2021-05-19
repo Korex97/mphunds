@@ -53,7 +53,7 @@ router.get("/signup/:codes", (req, res) => {
     .then(user => {
       if (user){
         var code = user.refercode;
-        res.json(code);
+        res.render("signin", {code: code});
       }
     })
 })
