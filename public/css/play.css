@@ -1,0 +1,545 @@
+
+
+/**Home**/
+:root{
+    --primary: #213568;
+    --secondary: #FFB806;
+    --white: #fff;
+    --black: #000;
+}
+
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body{
+    width: 100%;
+    background: #D4D5D6;
+    overflow: hidden;
+}
+
+a{
+    text-decoration: none;
+    font-size: 1.3rem;
+}
+
+li{
+    list-style: none;
+}
+
+@media screen and (max-width: 760px){
+}
+
+/**Header / Nav**/
+
+.navbar{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: var(--primary);
+    color: var(--white);
+	border-bottom: 3px solid var(--secondary);
+}
+
+.brand-title{
+    font-size: 1.5rem;
+    margin: .5rem;
+}
+
+.navbar-links ul{
+    margin: 0;
+    padding: 0;
+    display: flex;
+}
+
+.navbar-links li a{
+    color: var(--white);
+    padding: 1rem;
+    display: block;
+}
+
+.navbar-links li:hover{
+    background: var(--secondary);
+}
+
+.toggle-button{
+    position: absolute;
+    top: .75rem;
+    right: 1rem;
+    display: none;
+    flex-direction: column;
+    justify-content: space-between;
+    width: 30px;
+    height: 21px;
+}
+
+.toggle-button .bar{
+    height: 3px;
+    width: 100%;
+    background: var(--white);
+    border-radius: 10px;
+}
+
+.signup{
+    background: var(--secondary);
+}
+
+@media screen and (max-width: 400px){
+    .toggle-button{
+        display: flex;
+    }
+
+    .navbar-links{
+        display: none;
+        width: 100%;
+    }
+
+    .navbar{
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    .navbar-links ul{
+        width: 100%;
+        flex-direction: column;
+    }
+
+    .navbar-links li{
+        text-align: center;
+    }
+
+    .navbar-links.active{
+        display: flex;
+    }
+}
+
+/** Banner **/
+.banner{
+    width: 100%;
+    height: 80vh;
+    overflow: hidden;
+}
+
+.banner img{
+    width: 100%;
+}
+
+@media screen and (max-width: 400px){
+    .banner{
+        width: 100%;
+        height: auto;
+        overflow: hidden;
+    }
+    .banner img{
+        width: 100%;
+    }
+}
+
+/**finance**/
+.finance{
+    width: 100%;
+    background: var(--primary);
+    text-align: center;
+}
+
+.finance-row{
+    width: 80%;
+    margin: auto;
+    padding: 7rem 0;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 3rem;
+    align-items: center;
+}
+
+.finance-col{
+    color: var(--white);
+}
+
+.finance-col h1{
+    margin: 4rem 0 0 0;
+    font-size: 2rem;
+}
+
+.finance-col p{
+    font-size: 1.4rem;
+    margin: 2rem 0;
+}
+
+.finance-col button{
+    width: 30%;
+    padding: .8rem;
+    font-size: 1.2rem;
+    background: var(--secondary);
+    border: 0;
+}
+
+.finance-col img{
+    width: 70%;
+}
+
+@media screen and (max-width: 400px) {
+    .finance-row{
+        padding: 3rem 0;
+        display: grid;
+        grid-template-columns: 100%;
+        gap: 3rem;
+    }
+
+    .finance-col h1{
+        margin: 1rem 0 0 0;
+        font-size: 1.5rem;
+    }
+
+    .finance-col p{
+        font-size: 1.2rem;
+        margin: 2rem 0;
+    }
+}
+
+/**Packages**/
+.packages{
+    text-align: center;
+    padding: 7rem 0;
+}
+
+.packages h2{
+    font-size: 1.8rem;
+    margin-bottom: 1.5rem;
+    color: var(--secondary);
+}
+
+.packages-row{
+    width: 100%;
+    margin: auto;
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 2rem;
+    padding: 1rem;
+}
+
+.packages-col{
+    border: 0;
+}
+
+.packages-col .button{
+    width: 100%;
+    padding: 2rem 1.8rem;
+    font-size: 1.8rem;
+    border: 0;
+}
+
+.packages-col button:hover{
+    background: var(--primary);
+}
+
+.packages .silver{
+    background: #B2B6BA;
+}
+
+.packages .bronze{
+    background: #4C340A;
+}
+
+.packages .gold{
+    background: #C3922E;
+}
+
+.packages .ruby{
+    background: #B20B18;
+}
+
+.packages .diamond{
+    background: #E5E5E5;
+}
+
+.modal{
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%) scale(0);
+    transition: 200ms ease-in-out;
+    border: 1px solid var(--secondary);
+    border-radius: 10px;
+    z-index: 10;
+    background: var(--white);
+    width: 500px;
+    max-width: 80%;
+}
+
+.modal.active{
+    transform: translate(-50%, -50%) scale(1);
+}
+
+.modal header{
+    padding: 10px 15px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 1px solid var(--secondary);
+}
+
+.modal header h3{
+    font-weight: bold;
+}
+
+.modal header .close-button{
+    cursor: pointer;
+    font-size: 1.85rem;
+    border: none;
+    outline: none;
+    background: none;
+    font-weight: bold;
+}
+
+.modal .body{
+    display: flex;
+    background: var(--primary);
+    justify-content: space-between;
+    align-items: center;
+    padding: 2rem;
+}
+
+.modal .body h5{
+    font-size: 1.2rem;
+    color: var(--secondary);
+}
+
+.modal .body p{
+    font-size: 1.3rem;
+    margin: 1rem 0;
+    color: var(--white);
+}
+
+.pick-invest{
+    width: 100%;
+    background: var(--secondary);
+    font-size: 1.2rem;
+    padding: 1rem;
+    border: none;
+    border-radius: 0 0 10px 10px;
+}
+
+#overlay{
+    position: fixed;
+    opacity: 0;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0,0, 0, .5);
+    pointer-events: none;
+}
+
+#overlay.active{
+    opacity: 1;
+    pointer-events: all;
+}
+
+@media screen and (max-width: 400px){
+    .packages{
+        padding: 3rem 0;
+    }
+
+    .packages h2{
+        font-size: 1.5rem;
+        margin-bottom: 1rem;
+    }
+
+    .packages-row{
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        gap: .5rem; 
+        padding: .3rem;
+    }
+
+    .packages-col .button{
+        width: 100%;
+        padding: 1rem 1.5rem;
+        font-size: 1.5rem;
+        border: 0;
+    }
+
+    .modal .body{
+        display: flex;
+        flex-direction: column;
+        background: var(--primary);
+        justify-content: space-between;
+        align-items: center;
+        padding: 2rem;
+    }
+}
+
+/**Updates**/
+.updates{
+    width: 100%;
+}
+
+.updates-row{
+    width: 80%;
+    margin: auto;
+    display: flex;
+    text-align: center;
+}
+
+.updates-row h1{
+    font-size: 2rem;
+    margin: 1rem;
+}
+
+.updates-row p{
+    font-size: 1.3rem;
+}
+
+.updates-col-one{
+    margin-right: .5rem;
+    padding: 2rem 1rem;
+    background: var(--primary);
+}
+
+.updates-col-two{
+    margin-left: .5rem;
+    padding: 2rem 1rem;
+    background: var(--secondary);
+}
+
+@media screen and (max-width: 400px){
+    .updates-row{
+        display: grid;
+        grid-template-columns: 100%;
+        gap: 3rem;
+    }
+
+    .updates-row h1{
+        font-size: 1.5rem;
+        margin: 1rem;
+    }
+
+    .updates-row p{
+        font-size: 1.2rem;
+    }
+
+    .updates-col-one{
+        margin-right: 0;
+    }
+    
+    .updates-col-two{
+        margin-left: 0;
+    }
+}
+
+/**Login**/
+.login{
+    width: 100%;
+    height: 100vh;
+}
+
+.login-row{
+    display: grid;
+    grid-template-columns: 2fr 1fr;
+    gap: 1rem;
+    align-items: center;
+    text-align: center;
+}
+
+.login-col-1 img{
+    width: 100%;
+    height: 100vh;
+}
+
+.login-col-2 h2{
+    font-size: 2rem;
+    text-transform: uppercase;
+    margin-bottom: 5rem;
+}
+
+.login-col-2 form{
+    width: 100%;
+    padding: 1rem;
+}
+
+.login-col-2 form input{
+    width: 100%;
+    margin: 1rem 0;
+    padding: 1rem;
+    border: none;
+    border-bottom: 2px solid var(--primary);
+    background: none;
+}
+
+.login-col-2 button{
+    width: 100%;
+    margin: 1rem 0;
+    padding: 1rem;
+    background: var(--primary);
+    color: var(--white);
+    border: none;
+}
+
+.checkbox{
+    display: grid;
+    grid-template-columns: 1fr 10fr;
+    align-items: center;
+    font-size: .8rem;
+}
+
+.login-col-2 a{
+    font-size: 1rem;
+    background: var(--secondary);
+    padding: .5rem 1rem;
+    color: var(--black);
+    font-weight: bold;
+}
+
+@media screen and (max-width: 450px){
+    .login-row{
+        grid-template-columns: 100%;
+    }
+
+    .login-col-1 img{
+        opacity: 0.5;
+    }
+
+    .login-col-2 h2{
+        margin: 3rem;
+    }
+
+    .login-col-2{
+        position: absolute;
+    }
+
+    .login-col-2 form{
+        width: 80%;
+        margin: auto;
+        padding: .5rem;
+    }
+
+    .login-col-2 form input{
+        margin: .8rem 0;
+        padding: .8rem;
+        border: none;
+        border-bottom: 2px solid var(--primary);
+        background: var(--white);
+    }
+
+    .checkbox{
+        display: grid;
+        grid-template-columns: 1fr 10fr;
+        align-items: center;
+        font-size: .8rem;
+        font-weight: bold;
+    }
+}
+
+/**Footer**/
+footer{
+    background: var(--primary);
+    margin: 7rem 0 0;
+    padding: 1rem;
+    font-size: 1rem;
+    font-weight: bold;
+    color: var(--white);
+    text-align: center;
+}
