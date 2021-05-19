@@ -44,8 +44,14 @@ router.get('/tos', function(req, res, next) {
 });
 
 router.get('/signup', function(req, res, next) {
-  res.render('signin', {message: ""});
+  res.render('signin', {code: ""});
 });
+
+router.get("/signup/:code", (req, res) => {
+  var code = req.params.code;
+  User.findOne({refercode: code})
+    .then(user => res.json(user))
+})
 
 router.get('/login', function(req, res, next) {
   
@@ -94,7 +100,7 @@ router.post("/signup", (req, res) => {
                 User.findOne({refercode: referral})
                     .then(value => {
                         if (value){
-                            newUser.referred = value.email
+                            newUser.referredBy = value.email
                         }
                     })
 

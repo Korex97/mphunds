@@ -26,8 +26,20 @@ const userSchema = new mongoose.Schema({
         type: String,
         required: true
     },
-    referred: {
+    referredBy: {
         type: String
+    },
+    referred:[{
+        username: String
+    }],
+    referralBonus:{
+        type: Number
+    },
+    amountEarned: {
+        type: Number
+    },
+    totalBalance: {
+        type: Number
     },
     activated:{
         type: String
