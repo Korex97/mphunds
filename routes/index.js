@@ -47,10 +47,15 @@ router.get('/signup', function(req, res, next) {
   res.render('signin', {code: ""});
 });
 
-router.get("/signup/:code", (req, res) => {
-  var code = req.params.code;
-  User.findOne({refercode: code})
-    .then(user => res.json(user))
+router.get("/signup/:codes", (req, res) => {
+  var codes = req.params.codes;
+  User.findOne({refercode: codes})
+    .then(user => {
+      if (user){
+        var code = user.refercode;
+        res.json(code);
+      }
+    })
 })
 
 router.get('/login', function(req, res, next) {
