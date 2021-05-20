@@ -50,24 +50,6 @@ router.get('/tos', function(req, res, next) {
   res.render('tos');
 });
 
-vendorRouter.get("/vendor-login", (req, res) => {
-  res.render("vendor-login");
-});
-
-vendorRouter.get("/", vendorAuthenticated , (req, res) => {
-  res.render("vendor-home");
-})
-
-vendorRouter.get("/vendor-logout", (req, res) => {
-  req.logout();
-  req.flash('login_msg', 'You are already logged Out');
-  res.redirect('/vendors/vendor-login');
-})
-
-vendorRouter.get("/vendor-signup", (req, res) => {
-  res.render("vendor-register");
-});
-
 router.get('/signup', function(req, res, next) {
   res.render('signin', {code: ""});
 });
@@ -95,79 +77,6 @@ router.post("/login", passport.authenticate("local-login", {
   failureRedirect: "/login",
   failureFlash: true
 }));
-
-vendorRouter.post("/vendor-login", passport.authenticate("local-vendor", {
-  successRedirect: "/vendors/",
-  failureRedirect: "/vendors/vendor-login",
-  failureFlash: true
-}))
-
-vendorRouter.post("/vendor-signup", (req, res) => {
-  const {username, email, phone, password, confirmPassword } = req.body;
-
-  if (password.length < 6){
-    req.flash("signup_msg", "Password Must be More than 6 characters");
-    res.redirect("/vendors/vendor-signup");
-  }
-
-  if ( phone.length < 11 || phone.length > 11){
-    req.flash("signup_msg", "Phone Number is incorrect");
-    res.redirect("/vendors/vendor-signup");
-  }
-  
-  if ( password == confirmPassword) {
-    User.findOne({email: email})
-      .then( user => {
-        if (user){
-          req.flash("signup_msg", "You can't be a User and a Vendor");
-          res.redirect("/vendors/vendor-signup");
-        }else{
-          Vendor.findOne({email: email})
-            .then( emails => {
-              if (emails) {
-                req.flash("signup_msg", "Email already exists");
-                res.redirect("/vendors/vendor-signup");
-              } else {
-                Vendor.findOne({username: username})
-                  .then( pple => {
-                    if (pple) {
-                      req.flash("signup_msg", "Username already taken");
-                      res.redirect("/vendors/vendor-signup");
-                    }else{
-                      const newVendor = new Vendor({
-                        username: username,
-                        email: email,
-                        phone: phone,
-                        password: password
-                      })
-
-                      bcrypt.genSalt(10, (err, salt) => {
-                        bcrypt.hash(newVendor.password, salt, (err, hash) => {
-                            if (err) throw err;
-                            newVendor.password = hash;
-
-                            newVendor.save()
-                              .then( vendor => {
-                                if ( vendor ) {
-                                  req.flash("signup_msg", "You are now Registered, Kindly Login");
-                                  res.redirect("/vendors");
-                                }
-                              })
-                        })
-                      })
-                    }
-                  })
-              }
-            })
-        }
-      })
-
-  } else {
-    req.flash("signup_msg", "Password Doesn't Match");
-    res.redirect("/vendors/vendor-signup");
-  }
-
-})
 
 router.post("/signup", (req, res) => {
   const {firstname, lastname, password, referral, confirmPassword ,username, email} = req.body;
@@ -233,7 +142,4 @@ router.post("/signup", (req, res) => {
     res.redirect("/signup");
   }
 })
-module.exports = {
-  userRoutes: router,
-  vendorRoutes: vendorRouter
-};
+module.exports = router

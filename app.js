@@ -12,6 +12,7 @@ var flash = require('connect-flash');
 
 var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
+var vendorRoutes = require("./routes/vendors");
 
 // Connect Mongodb to Application
 var uri = "mongodb+srv://mphunds:mphunds@cluster0.bb9cp.mongodb.net/mphunds?retryWrites=true&w=majority";
@@ -26,6 +27,7 @@ var app = express();
 
 //Configuration
 require("./config/passport")(passport);
+require("./config/vendorPassport")(passport);
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
@@ -56,8 +58,8 @@ app.use((req, res, next) => {
   next();
 });
 
-app.use('/', indexRouter.userRoutes);
-app.use('/vendors', indexRouter.vendorRoutes);
+app.use('/', indexRouter);
+app.use('/vendors', vendorRoutes);
 app.use('/users', usersRouter);
 
 // catch 404 and forward to error handler
