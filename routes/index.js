@@ -54,7 +54,7 @@ vendorRouter.get("/vendor-login", (req, res) => {
   res.render("vendor-login");
 });
 
-vendorRouter.get("/", vendorAuthenticated, (req, res) => {
+vendorRouter.get("/", (req, res) => {
   res.render("vendor-home");
 })
 
