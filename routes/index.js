@@ -35,7 +35,7 @@ router.get('/gen-income', function(req, res, next) {
   res.render('gen-income');
 });
 
-router.get('/withdraw', function(req, res, next) {
+router.get('/withdraw', ensureAuthenticated , function(req, res, next) {
   res.render('withdraw');
 });
 
