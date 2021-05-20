@@ -3,6 +3,7 @@ var mongoose = require("mongoose");
 var bcrypt = require("bcrypt");
 
 var User = require("../models/user.model");
+var Vendor = require("../models/vendor.model");
 
 module.exports = function(passport) {
 
@@ -34,6 +35,30 @@ module.exports = function(passport) {
         })
         .catch(err => console.log(err));
     
+    }));
+
+    passport.use("local-vendor", new LocalStrategy({
+        usernameField: email,
+        passwordField: password,
+        passReqToCallback: true
+    }, (req, email, password, done) => {
+        Vendor.findOne({email: email}, (err, user) => {
+            if (err) throw done(err);
+
+            if (!user){
+                return done(null, false, req.flash('login_msg', "Email is not registered, please kindly register as a vendor"));
+            }
+            bcrypt.compare(password, user.password, (err, isMatch) => {
+                if (err) throw err;
+
+                if (isMatch){
+                    return done(null, user)
+                }else{
+                    return done(null, false, req.flash('login_msg', "Password is Incorrect"))
+                }
+            })
+        })
+        .catch(err => console.log(err));
     }));
 
     passport.serializeUser(function (user, done) {

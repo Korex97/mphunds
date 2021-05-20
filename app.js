@@ -52,6 +52,7 @@ app.use(flash());
 app.use((req, res, next) => {
   res.locals.signup_msg = req.flash('signup_msg');
   res.locals.login_msg = req.flash('login_msg');
+  res.locals.error_msg = req.flash('error_msg');
   next();
 });
 
