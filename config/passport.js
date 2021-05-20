@@ -38,8 +38,8 @@ module.exports = function(passport) {
     }));
 
     passport.use("local-vendor", new LocalStrategy({
-        usernameField: email,
-        passwordField: password,
+        usernameField: 'email',
+        passwordField: 'password',
         passReqToCallback: true
     }, (req, email, password, done) => {
         Vendor.findOne({email: email}, (err, user) => {
