@@ -61,7 +61,7 @@ vendorRouter.get("/", vendorAuthenticated, (req, res) => {
 vendorRouter.get("/vendor-logout", (req, res) => {
   req.logout();
   req.flash('login_msg', 'You are already logged Out');
-  res.redirect('/vendor-login');
+  res.redirect('/vendors/vendor-login');
 })
 
 vendorRouter.get("/vendor-signup", (req, res) => {
@@ -97,8 +97,8 @@ router.post("/login", passport.authenticate("local-login", {
 }));
 
 vendorRouter.post("/vendor-login", passport.authenticate("local-vendor", {
-  successRedirect: "/vendor-home",
-  failureRedirect: "/vendor-login",
+  successRedirect: "/vendors/",
+  failureRedirect: "/vendors/vendor-login",
   failureFlash: true
 }))
 
@@ -107,12 +107,12 @@ vendorRouter.post("/vendor-signup", (req, res) => {
 
   if (password.length < 6){
     req.flash("signup_msg", "Password Must be More than 6 characters");
-    res.redirect("/vendor-signup")
+    res.redirect("/vendors/vendor-signup");
   }
 
   if ( phone.length < 11 || phone.length > 11){
     req.flash("signup_msg", "Phone Number is incorrect");
-    res.redirect("/vendor-signup");
+    res.redirect("/vendors/vendor-signup");
   }
   
   if ( password == confirmPassword) {
@@ -120,19 +120,19 @@ vendorRouter.post("/vendor-signup", (req, res) => {
       .then( user => {
         if (user){
           req.flash("signup_msg", "You can't be a User and a Vendor");
-          res.redirect("/vendor-signup")
+          res.redirect("/vendors/vendor-signup");
         }else{
           Vendor.findOne({email: email})
             .then( emails => {
               if (emails) {
                 req.flash("signup_msg", "Email already exists");
-                res.redirect("/vendor-signup")
+                res.redirect("/vendors/vendor-signup");
               } else {
                 Vendor.findOne({username: username})
                   .then( pple => {
                     if (pple) {
                       req.flash("signup_msg", "Username already taken");
-                      res.redirect("/vendor-signup")
+                      res.redirect("/vendors/vendor-signup");
                     }else{
                       const newVendor = new Vendor({
                         username: username,
@@ -150,7 +150,7 @@ vendorRouter.post("/vendor-signup", (req, res) => {
                               .then( vendor => {
                                 if ( vendor ) {
                                   req.flash("signup_msg", "You are now Registered, Kindly Login");
-                                  res.redirect("/vendor-login")
+                                  res.redirect("/vendors");
                                 }
                               })
                         })
@@ -164,7 +164,7 @@ vendorRouter.post("/vendor-signup", (req, res) => {
 
   } else {
     req.flash("signup_msg", "Password Doesn't Match");
-    res.redirect("/vendor-signup")
+    res.redirect("/vendors/vendor-signup");
   }
 
 })
