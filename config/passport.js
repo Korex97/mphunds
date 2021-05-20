@@ -42,7 +42,7 @@ module.exports = function(passport) {
         passwordField: 'password',
         passReqToCallback: true
     }, (req, email, password, done) => {
-        Vendor.findOne({email: email}, (err, user) => {
+        Vendor.findOne({'email': email}, (err, user) => {
             if (err) throw done(err);
 
             if (!user){
