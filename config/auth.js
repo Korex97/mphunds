@@ -10,6 +10,7 @@ module.exports = {
         if(req.isAuthenticated()) {
             return next();
         }
+        console.log(req.isAuthenticated());
         req.flash('error_msg', 'Please Log in to view this resource');
         res.redirect('/vendors/vendor-login');
     }
