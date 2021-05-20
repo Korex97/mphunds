@@ -38,7 +38,7 @@ app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 app.use(session({
   secret: crypto.randomBytes(20).toString("hex"),
-  resave: true,
+  resave: false,
   saveUninitialized: false,
   cookie: {
     expires: 10800000, // 3 HRS
