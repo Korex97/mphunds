@@ -6,6 +6,7 @@ const passport = require('passport');
 const { ensureAuthenticated } = require('../config/auth');
 const { vendorAuthenticated } = require('../config/auth');
 var router = express.Router();
+var vendorRouter = express.Router();
 const emailValid = new emailValidator();
 
 //Import Database Models
@@ -49,21 +50,21 @@ router.get('/tos', function(req, res, next) {
   res.render('tos');
 });
 
-router.get("/vendor-login", (req, res) => {
+vendorRouter.get("/vendor-login", (req, res) => {
   res.render("vendor-login");
 });
 
-router.get("/vendor-home", vendorAuthenticated ,(req, res) => {
+vendorRouter.get("/", vendorAuthenticated, (req, res) => {
   res.render("vendor-home");
 })
 
-router.get("/vendor-logout", (req, res) => {
+vendorRouter.get("/vendor-logout", (req, res) => {
   req.logout();
   req.flash('login_msg', 'You are already logged Out');
   res.redirect('/vendor-login');
 })
 
-router.get("/vendor-signup", (req, res) => {
+vendorRouter.get("/vendor-signup", (req, res) => {
   res.render("vendor-register");
 });
 
@@ -95,13 +96,13 @@ router.post("/login", passport.authenticate("local-login", {
   failureFlash: true
 }));
 
-router.post("/vendor-login", passport.authenticate("local-vendor", {
+vendorRouter.post("/vendor-login", passport.authenticate("local-vendor", {
   successRedirect: "/vendor-home",
   failureRedirect: "/vendor-login",
   failureFlash: true
 }))
 
-router.post("/vendor-signup", (req, res) => {
+vendorRouter.post("/vendor-signup", (req, res) => {
   const {username, email, phone, password, confirmPassword } = req.body;
 
   if (password.length < 6){
@@ -232,4 +233,7 @@ router.post("/signup", (req, res) => {
     res.redirect("/signup");
   }
 })
-module.exports = router;
+module.exports = {
+  userRoutes: router,
+  vendorRoutes: vendorRouter
+};
