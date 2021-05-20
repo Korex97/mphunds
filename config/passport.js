@@ -45,6 +45,9 @@ module.exports = function(passport) {
         Vendor.findOne({'email': email}, (err, user) => {
             if (err) throw done(err);
 
+            console.log("user", user);
+            console.log('password', password);
+
             if (!user){
                 return done(null, false, req.flash('login_msg', "Email is not registered, please kindly register as a vendor"));
             }
