@@ -53,11 +53,11 @@ router.get("/vendor-login", (req, res) => {
   res.render("vendor-login");
 });
 
-router.get("vendor-home", vendorAuthenticated ,(req, res) => {
+router.get("/vendor-home", vendorAuthenticated ,(req, res) => {
   res.render("vendor-home");
 })
 
-router.get("vendor-logout", (req, res) => {
+router.get("/vendor-logout", (req, res) => {
   req.logout();
   req.flash('login_msg', 'You are already logged Out');
   res.redirect('/vendor-login');
