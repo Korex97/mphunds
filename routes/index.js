@@ -101,7 +101,7 @@ router.post("/vendor-login", passport.authenticate("local-vendor", {
   failureFlash: true
 }))
 
-router.post("vendor-signup", (req, res) => {
+router.post("/vendor-signup", (req, res) => {
   const {username, email, phone, password, confirmPassword } = req.body;
 
   if (password.length < 6){
