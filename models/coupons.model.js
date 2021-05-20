@@ -19,7 +19,7 @@ const couponSchema = new mongoose.Schema({
     }
 });
 
-CouponSchema.index( 
+couponSchema.index( 
     { creationDate: 1 }, 
     { expireAfterSeconds: 2592000 }
 );
