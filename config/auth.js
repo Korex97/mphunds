@@ -12,6 +12,6 @@ module.exports = {
             return next();
         }
         req.flash('error_msg', 'Please Log in to view this resource');
-        res.redirect('/vendor-login');
+        res.redirect('/vendors/vendor-login');
     }
 }
