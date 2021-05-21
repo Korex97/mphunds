@@ -74,7 +74,7 @@ router.get('/login', function(req, res, next) {
 
 //Post Requests
 
-router.post("/login", userPassport.authenticate({
+router.post("/login", userPassport.authenticate("local",{
   successRedirect: "/profile",
   failureRedirect: "/login",
   failureFlash: true
