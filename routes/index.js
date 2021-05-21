@@ -28,7 +28,11 @@ router.get('/contact', function(req, res, next) {
 });
 
 router.get('/profile', ensureAuthenticated, function(req, res, next) {
-  res.render('profile');
+  if (req.user.type == "vendor"){
+    res.render("vendor-home");
+  }else{
+    res.render("profile")
+  }
 });
 
 router.get('/plan', function(req, res, next) {

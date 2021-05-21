@@ -35,6 +35,18 @@ const userSchema = new mongoose.Schema({
     referralBonus:{
         type: Number
     },
+    phone: {
+        type: Number,
+    },
+    coupons: [{
+        couponCode: String,
+        price: Number,
+        plan: String,
+        roi: Number
+    }],
+    type:{
+        type: String
+    },
     amountEarned: {
         type: Number
     },

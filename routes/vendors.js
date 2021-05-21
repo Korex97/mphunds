@@ -13,36 +13,22 @@ const Coupon = require("../models/coupons.model");
 const Withdraw = require("../models/withdrawal.model");
 
 
-vendorRouter.get("/vendor-login", (req, res) => {
-    res.render("vendor-login");
-});
+
   
 vendorRouter.get("/", (req, res) => {
-    res.render("vendor-login");
+    res.render("vendor-register");
 })
 
-vendorRouter.get("/home", vendorAuthenticated ,(req, res) => {
-    res.json({username: req.vendor.username});
-    console.log(req.vendor);
-})
-  
-vendorRouter.get("/vendor-logout", (req, res) => {
-    req.logout();
-    req.flash('login_msg', 'You are already logged Out');
-    res.redirect('/vendors/vendor-login');
-})
+// vendorRouter.get("/home", vendorAuthenticated ,(req, res) => {
+//     res.json({username: req.vendor.username});
+//     console.log(req.vendor);
+// })
   
 vendorRouter.get("/vendor-signup", (req, res) => {
     res.render("vendor-register");
 });
 
 //POST REQUESTS
-
-vendorRouter.post("/vendor-login", vendorPassport.authenticate("local-vendor",{
-    successRedirect: "/vendors/home",
-    failureRedirect: "/vendors/vendor-login",
-    failureFlash: true
-}))
   
 vendorRouter.post("/vendor-signup", (req, res) => {
     const {username, email, phone, password, confirmPassword } = req.body;
@@ -64,23 +50,18 @@ vendorRouter.post("/vendor-signup", (req, res) => {
             req.flash("signup_msg", "You can't be a User and a Vendor");
             res.redirect("/vendors/vendor-signup");
           }else{
-            Vendor.findOne({email: email})
-              .then( emails => {
-                if (emails) {
-                  req.flash("signup_msg", "Email already exists");
-                  res.redirect("/vendors/vendor-signup");
-                } else {
-                  Vendor.findOne({username: username})
+                User.findOne({username: username})
                     .then( pple => {
-                      if (pple) {
+                    if (pple) {
                         req.flash("signup_msg", "Username already taken");
                         res.redirect("/vendors/vendor-signup");
-                      }else{
-                        const newVendor = new Vendor({
+                    }else{
+                        const newVendor = new User({
                           username: username,
                           email: email,
                           phone: phone,
-                          password: password
+                          password: password,
+                          type: "vendor"
                         })
   
                         bcrypt.genSalt(10, (err, salt) => {
@@ -92,15 +73,13 @@ vendorRouter.post("/vendor-signup", (req, res) => {
                                 .then( vendor => {
                                   if ( vendor ) {
                                     req.flash("signup_msg", "You are now Registered, Kindly Login");
-                                    res.redirect("/vendors");
+                                    res.redirect("/login");
                                   }
                                 })
                           })
                         })
-                      }
-                    })
-                }
-              })
+                    }
+                })
           }
         })
   
