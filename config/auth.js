@@ -10,7 +10,7 @@ module.exports = {
         if(req.isAuthenticated()) {
             return next();
         }
-        console.log(req.session.passport.user);
+        console.log(req.session.passport);
         req.flash('error_msg', 'Please Log in to view this resource');
         res.redirect('/vendors/vendor-login');
     }
