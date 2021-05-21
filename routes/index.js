@@ -2,7 +2,7 @@ var express = require('express');
 const emailValidator = require("email-deep-validator");
 const referralCodeGenerator = require('referral-code-generator');
 const bcrypt = require("bcrypt");
-const userPassport = require("passport");
+const passport = require("passport");
 const { ensureAuthenticated } = require('../config/auth');
 const { vendorAuthenticated } = require('../config/auth');
 var router = express.Router();
@@ -13,10 +13,6 @@ const User = require('../models/user.model');
 const Vendor = require("../models/vendor.model");
 const Coupon = require("../models/coupons.model");
 const Withdraw = require("../models/withdrawal.model");
-
-userPassport.authenticate
-
-
 
 /* GET home page. */
 router.get('/', function(req, res, next) {
@@ -77,7 +73,7 @@ router.get('/login', function(req, res, next) {
 
 //Post Requests
 
-router.post("/login", userPassport.authenticate("local-login",{
+router.post("/login", passport.authenticate("local-login",{
   successRedirect: "/profile",
   failureRedirect: "/login",
   failureFlash: true
