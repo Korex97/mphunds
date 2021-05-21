@@ -27,7 +27,18 @@ router.get('/profile', ensureAuthenticated, function(req, res, next) {
   if (req.user.type == "vendor"){
     res.render("vendor-home");
   }else{
-    res.render("profile")
+    res.render("profile", {
+        username: req.user.username,
+        firstname: req.user.firstname,
+        lastname: req.user.lastname,
+        email: req.user.email,
+        referred: req.user.referred,
+        bonus: req.user.referralBonus,
+        refercode: req.user.refercode,
+        balance: req.user.amountEarned,
+        totalAmount: req.user.totalBalance,
+        package: req.user.package 
+    })
   }
 });
 
@@ -113,7 +124,14 @@ router.post("/signup", (req, res) => {
                 User.findOne({refercode: referral})
                     .then(value => {
                         if (value){
-                            newUser.referredBy = value.email
+                            newUser.referredBy = value.email;
+                            User.findOneAndUpdate({refercode: referral}, {
+                              $push:{
+                                referred: {
+                                  username: username,
+                                }
+                            }
+                            })
                         }
                     })
 

@@ -5,7 +5,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
-    <link rel="stylesheet" href="/css/index.css">
+    <link rel="stylesheet" href="css/index.css">
 </head>
 <body>
     
@@ -48,18 +48,36 @@
         <section class="profile">
 
             <div class="container">
-                <form action="">
-                    <div class="formdiv">
-                        <p>Username or Email Address</p>
-                        <input type="text" name="" id="">
+                
+                <div class="profilerow">
+
+                    <div class="profilecontain profileone">
+                        <div class="profile-col-img">
+                            <img src="images/profile.jpg" alt="">
+                        </div>
+                        <div class="profilecoupon">
+                            <a href="">Activate Coupon</a>
+                        </div>
                     </div>
-                    <div class="formdiv">
-                        <p>Password</p>
-                        <input type="password" name="" id="">
+                    <div class="profilecontain">
+                        <div class="profileinfo">
+                            <h4><%= firstname %> <%= lastname %></h4>
+                            <p><%= email %></p>
+                            <p><%= username %></p>
+                            <p class="profilepack"><%= package %></p>
+                        </div>
+                        <div class="profilereferral">
+                            <h4>Referral</h4>
+                            <p><span>Referral Link:</span> </p>
+                            <p><span>Number of referral</span>: <%= reffered.length %></p>
+                            <p><span>Referral Bonus</span>: 0</p>
+                            <p><span>Balance</span>: <%= balance %></p>
+                            <p><span>Total Balance</span>: <%= totalBalance %></p>
+                        </div>
                     </div>
-                    <input type="submit" value="Login">
-                    <a href="">Forgot Password</a>
-                </form>
+
+                </div>
+
             </div>
 
         </section>

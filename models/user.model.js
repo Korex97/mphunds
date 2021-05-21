@@ -35,6 +35,9 @@ const userSchema = new mongoose.Schema({
     phone: {
         type: Number,
     },
+    package: {
+        type: String
+    },
     coupons: [{
         couponCode: String,
         price: Number,
