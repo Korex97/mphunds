@@ -21,7 +21,7 @@ vendorRouter.get("/", (req, res) => {
     res.render("vendor-login");
 })
 
-vendorRouter.get("/home", (req, res) => {
+vendorRouter.get("/home", vendorAuthenticated ,(req, res) => {
     res.json({username: req.user.username});
     console.log(req.user);
 })
