@@ -38,7 +38,7 @@ vendorRouter.get("/vendor-signup", (req, res) => {
 
 //POST REQUESTS
 
-vendorRouter.post("/vendor-login", vendorPassport.authenticate({
+vendorRouter.post("/vendor-login", vendorPassport.authenticate("local-vendor",{
     successRedirect: "/vendors/home",
     failureRedirect: "/vendors/vendor-login",
     failureFlash: true
