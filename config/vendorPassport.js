@@ -23,7 +23,7 @@ module.exports = function(passport) {
                 if (err) throw err;
 
                 if (isMatch){
-                    return done(null, vendor)
+                    return done(null,true,vendor)
                 }else{
                     return done(null, false, req.flash('login_msg', "Password is Incorrect"))
                 }
