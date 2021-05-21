@@ -1,6 +1,6 @@
 var createError = require('http-errors');
 var express = require('express');
-// var passport = require("passport");
+var passport = require("passport");
 var session = require("express-session");
 var crypto = require("crypto");
 // require("dotenv").config();
@@ -13,10 +13,6 @@ var flash = require('connect-flash');
 var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
 var vendorRoutes = require("./routes/vendors");
-
-//Passport Exports
-var userPassport = require("passport");
-var vendorPassport = require("passport");
 
 
 
@@ -32,8 +28,7 @@ database.once('open', () => {
 var app = express();
 
 //Configuration
-require("./config/passport")(userPassport);
-require("./config/vendorPassport")(vendorPassport);
+require("./config/passport")(passport);
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
@@ -53,10 +48,8 @@ app.use(session({
     httpOnly: false
   }
 }));
-app.use(userPassport.initialize({userProperty: "user"}));
+app.use(userPassport.initialize());
 app.use(userPassport.session());
-app.use(vendorPassport.initialize({userProperty: "vendor"}));
-app.use(vendorPassport.session());
 app.use(flash());
 
 
