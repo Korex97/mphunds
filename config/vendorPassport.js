@@ -37,18 +37,8 @@ module.exports = function(passport) {
     })
 
     passport.deserializeUser( function (id, done) {
-        const userSchema = new mongoose.Schema({_id: ObjectID});
-        const collection = mongoose.model("Collection", userSchema);
-        const entry = new collection({
-            _id: ObjectID(id)
-        })
-
-        entry.save()
-            .then( inner => console.log(inner))
-
-        collection.findOne({_id: ObjectID}, (err, user) => {
-            if (err) done(err, null);
-            done(null, user);
+        User.findById(id, (err, user) => {
+            done(err, user);
         })
     });
 }

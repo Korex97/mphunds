@@ -2,7 +2,8 @@ var express = require('express');
 const emailValidator = require("email-deep-validator");
 const referralCodeGenerator = require('referral-code-generator');
 const bcrypt = require("bcrypt");
-const passport = require('passport');
+const passport = require('passport').Passport;
+const userPassport = new passport();
 const { ensureAuthenticated } = require('../config/auth');
 const { vendorAuthenticated } = require('../config/auth');
 var router = express.Router();
@@ -72,7 +73,7 @@ router.get('/login', function(req, res, next) {
 
 //Post Requests
 
-router.post("/login", passport.authenticate("local-login", {
+router.post("/login", userPassport.authenticate("local-login", {
   successRedirect: "/profile",
   failureRedirect: "/login",
   failureFlash: true

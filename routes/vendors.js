@@ -1,8 +1,8 @@
 var express = require('express');
 const emailValidator = require("email-deep-validator");
-const referralCodeGenerator = require('referral-code-generator');
 const bcrypt = require("bcrypt");
-const passport = require('passport');
+const passport = require('passport').Passport;
+const vendorPassport = new passport();
 const { vendorAuthenticated } = require('../config/auth');
 var vendorRouter = express.Router();
 const emailValid = new emailValidator();
@@ -38,7 +38,7 @@ vendorRouter.get("/vendor-signup", (req, res) => {
 
 //POST REQUESTS
 
-vendorRouter.post("/vendor-login", passport.authenticate("local-vendor", {
+vendorRouter.post("/vendor-login", vendorPassport.authenticate("local-vendor", {
     successRedirect: "/vendors/home",
     failureRedirect: "/vendors/vendor-login",
     failureFlash: true

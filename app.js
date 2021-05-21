@@ -1,6 +1,6 @@
 var createError = require('http-errors');
 var express = require('express');
-var passport = require("passport");
+var passport = require("passport").Passport;
 var session = require("express-session");
 var crypto = require("crypto");
 // require("dotenv").config();
@@ -14,6 +14,10 @@ var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
 var vendorRoutes = require("./routes/vendors");
 
+//Passport Exports
+var userPassport = new passport();
+var vendorPassport = new passport();
+
 // Connect Mongodb to Application
 var uri = "mongodb+srv://mphunds:mphunds@cluster0.bb9cp.mongodb.net/mphunds?retryWrites=true&w=majority";
 mongoose.connect(uri, {useNewUrlParser: true, useUnifiedTopology: true});
@@ -26,8 +30,8 @@ database.once('open', () => {
 var app = express();
 
 //Configuration
-require("./config/passport")(passport);
-require("./config/vendorPassport")(passport);
+require("./config/passport")(userPassport);
+require("./config/vendorPassport")(vendorPassport);
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
@@ -47,9 +51,12 @@ app.use(session({
     httpOnly: false
   }
 }));
-app.use(passport.initialize());
-app.use(passport.session());
+app.use(userPassport.initialize({userProperty: "user"}));
+app.use(userPassport.session());
+app.use(vendorPassport.initialize({userProperty: "vendor"}));
+app.use(vendorPassport.session());
 app.use(flash());
+
 
 app.use((req, res, next) => {
   res.locals.signup_msg = req.flash('signup_msg');
