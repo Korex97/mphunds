@@ -82,6 +82,12 @@ router.get('/login', function(req, res, next) {
   res.render('login');
 });
 
+router.get('/logout', function(req, res, next) {
+  req.logout();
+  req.flash('login_msg', 'You are already logged Out');
+  res.redirect('/login');
+});
+
 //Post Requests
 
 router.post("/login", passport.authenticate("local-login",{
