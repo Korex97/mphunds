@@ -4,11 +4,9 @@ const bcrypt = require("bcrypt");
 const userSchema = new mongoose.Schema({
     firstname: {
         type: String,
-        required: true
     },
     lastname: {
         type: String,
-        required: true
     },
     username: {
         type: String,
@@ -24,7 +22,6 @@ const userSchema = new mongoose.Schema({
     },
     refercode: {
         type: String,
-        required: true
     },
     referredBy: {
         type: String
