@@ -48,8 +48,8 @@ app.use(session({
     httpOnly: false
   }
 }));
-app.use(userPassport.initialize());
-app.use(userPassport.session());
+app.use(passport.initialize());
+app.use(passport.session());
 app.use(flash());
 
 
