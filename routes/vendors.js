@@ -17,8 +17,12 @@ vendorRouter.get("/vendor-login", (req, res) => {
     res.render("vendor-login");
 });
   
-vendorRouter.get("/", vendorAuthenticated , (req, res) => {
-    res.render("vendor-home");
+vendorRouter.get("/", (req, res) => {
+    res.render("vendor-login");
+})
+
+vendorRouter.get("/home", (req, res) => {
+    res.json(req.user);
 })
   
 vendorRouter.get("/vendor-logout", (req, res) => {
@@ -34,7 +38,7 @@ vendorRouter.get("/vendor-signup", (req, res) => {
 //POST REQUESTS
 
 vendorRouter.post("/vendor-login", passport.authenticate("local-vendor", {
-    successRedirect: "/vendors/",
+    successRedirect: "/vendors/home",
     failureRedirect: "/vendors/vendor-login",
     failureFlash: true
 }))
