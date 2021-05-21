@@ -8,7 +8,7 @@ module.exports = function(passport) {
 
     console.log("Login is working here");
 
-    passport.use("local-login", new LocalStrategy({
+    passport.use(new LocalStrategy({
         usernameField: 'email',
         passwordField: 'password',
         passReqToCallback: true

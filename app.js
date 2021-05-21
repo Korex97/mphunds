@@ -18,6 +18,8 @@ var vendorRoutes = require("./routes/vendors");
 var userPassport = new passport();
 var vendorPassport = new passport();
 
+v
+
 // Connect Mongodb to Application
 var uri = "mongodb+srv://mphunds:mphunds@cluster0.bb9cp.mongodb.net/mphunds?retryWrites=true&w=majority";
 mongoose.connect(uri, {useNewUrlParser: true, useUnifiedTopology: true});

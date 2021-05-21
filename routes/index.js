@@ -2,11 +2,11 @@ var express = require('express');
 const emailValidator = require("email-deep-validator");
 const referralCodeGenerator = require('referral-code-generator');
 const bcrypt = require("bcrypt");
-const passport = require('passport');
+const passport = require("passport").Passport;
+const userPassport = new passport();
 const { ensureAuthenticated } = require('../config/auth');
 const { vendorAuthenticated } = require('../config/auth');
 var router = express.Router();
-var vendorRouter = express.Router();
 const emailValid = new emailValidator();
 
 //Import Database Models
@@ -14,6 +14,8 @@ const User = require('../models/user.model');
 const Vendor = require("../models/vendor.model");
 const Coupon = require("../models/coupons.model");
 const Withdraw = require("../models/withdrawal.model");
+
+userPassport.authenticate
 
 
 
@@ -72,7 +74,7 @@ router.get('/login', function(req, res, next) {
 
 //Post Requests
 
-router.post("/login", passport.authenticate("local-login", {
+router.post("/login", userPassport.authenticate({
   successRedirect: "/profile",
   failureRedirect: "/login",
   failureFlash: true

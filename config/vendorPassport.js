@@ -5,7 +5,7 @@ var bcrypt = require("bcrypt");
 var Vendor = require("../models/vendor.model");
 
 module.exports = function(passport) {
-    passport.use("local-vendor", new LocalStrategy({
+    passport.use( new LocalStrategy({
         usernameField: 'email',
         passwordField: 'password',
         passReqToCallback: true

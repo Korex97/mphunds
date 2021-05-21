@@ -1,8 +1,9 @@
 var express = require('express');
 const emailValidator = require("email-deep-validator");
 const bcrypt = require("bcrypt");
-const passport = require('passport');
 const { vendorAuthenticated } = require('../config/auth');
+const passport = require("passport").Passport;
+const vendorPassport = new passport();
 var vendorRouter = express.Router();
 const emailValid = new emailValidator();
 
@@ -11,6 +12,7 @@ const User = require('../models/user.model');
 const Vendor = require("../models/vendor.model");
 const Coupon = require("../models/coupons.model");
 const Withdraw = require("../models/withdrawal.model");
+
 
 vendorRouter.get("/vendor-login", (req, res) => {
     res.render("vendor-login");
@@ -37,7 +39,7 @@ vendorRouter.get("/vendor-signup", (req, res) => {
 
 //POST REQUESTS
 
-vendorRouter.post("/vendor-login", passport.authenticate("local-vendor", {
+vendorRouter.post("/vendor-login", vendorPassport.authenticate({
     successRedirect: "/vendors/home",
     failureRedirect: "/vendors/vendor-login",
     failureFlash: true
