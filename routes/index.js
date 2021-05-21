@@ -47,7 +47,12 @@ router.get('/plan', function(req, res, next) {
 });
 
 router.get('/coupon', ensureAuthenticated ,function(req, res, next) {
-  res.render('coupon');
+  User.find({type: "vendor"})
+    .then(vendors => {
+      if (vendors){
+        res.render('coupon', {vendors});
+      }
+    })
 });
 
 router.get('/gen-income', function(req, res, next) {
