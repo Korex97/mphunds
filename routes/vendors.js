@@ -22,7 +22,8 @@ vendorRouter.get("/", (req, res) => {
 })
 
 vendorRouter.get("/home", (req, res) => {
-    res.json(req.user);
+    res.json({username: req.user.username});
+    console.log(req.user);
 })
   
 vendorRouter.get("/vendor-logout", (req, res) => {
