@@ -1,6 +1,6 @@
 var createError = require('http-errors');
 var express = require('express');
-var passport = require("passport").Passport;
+// var passport = require("passport");
 var session = require("express-session");
 var crypto = require("crypto");
 // require("dotenv").config();
@@ -15,8 +15,8 @@ var usersRouter = require('./routes/users');
 var vendorRoutes = require("./routes/vendors");
 
 //Passport Exports
-var userPassport = new passport();
-var vendorPassport = new passport();
+var userPassport = require("passport");
+var vendorPassport = require("passport");
 
 
 

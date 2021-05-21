@@ -2,8 +2,7 @@ var express = require('express');
 const emailValidator = require("email-deep-validator");
 const bcrypt = require("bcrypt");
 const { vendorAuthenticated } = require('../config/auth');
-const passport = require("passport").Passport;
-const vendorPassport = new passport();
+const vendorPassport = require("passport");
 var vendorRouter = express.Router();
 const emailValid = new emailValidator();
 
