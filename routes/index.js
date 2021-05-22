@@ -1,6 +1,7 @@
 var express = require('express');
 const emailValidator = require("email-deep-validator");
 const referralCodeGenerator = require('referral-code-generator');
+var coupon_code = require('voucher-code-generator');
 const bcrypt = require("bcrypt");
 const passport = require("passport");
 const { ensureAuthenticated } = require('../config/auth');
@@ -25,7 +26,9 @@ router.get('/contact', function(req, res, next) {
 
 router.get('/profile', ensureAuthenticated, function(req, res, next) {
   if (req.user.type == "vendor"){
-    res.render("vendor-home");
+    res.render("vendor-home", {
+      coupons: req.user.coupons
+    });
   }else{
     res.render("profile", {
         username: req.user.username,
@@ -171,5 +174,50 @@ router.post("/signup", (req, res) => {
     req.flash("signup_msg", "Password Does Not Match");
     res.redirect("/signup");
   }
+});
+
+router.post("/generate", ensureAuthenticated, (req, res) => {
+  const {package, ROI, price} = req.body;
+  const user = req.user.username;
+
+  var date = new Date();
+  var year = date.getFullYear();
+  var postfix = "-" + year.toString();
+  const couponCode = coupon_code.generate({
+    length: 10,
+    count: 1,
+    prefix: "MPHDS-",
+    postfix: postfix,
+    charset: coupon_code.charset("alphanumeric")
+  });
+
+  const newCoupon = new Coupon({
+    couponCode: couponCode[0],
+    package: package,
+    roi: ROI,
+    price: price
+  });
+
+  newCoupon.save()
+    .then( coupon => {
+      if (coupon) {
+        User.findOneAndUpdate({username: user}, {
+          $push:{
+            coupons: {
+                couponCode: couponCode[0],
+                price: price,
+                plan: package,
+                roi: ROI
+            }
+          }
+        }).then( updated => {
+          if (updated) {
+            res.redirect("/profile");
+          }
+        }).catch( err => res.json(err));
+      }
+    }).catch( err => res.json(err));
+
+
 })
 module.exports = router

@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="/css/index.css">
+</head>
+<body>
+    
+    <div class="container-fluid">
+
+         <!--Header-->
+         <section class="bar">
+
+        </section>
+
+        <nav>
+            <div class="container">
+                <div class="nav-container">
+                    <div class="btn">
+                        <div class="navbar"></div>
+                        <div class="navbar"></div>
+                        <div class="navbar"></div>
+                    </div>
+                </div>
+                <ul class="navul">
+                    <li><a href="/logout">LogOut</a></li>
+                </ul>
+            </div>
+        </nav>
+
+        <section class="logo">
+            <h1>Mphunds</h1>
+            <h5>INVEST IN YOUR FUTURE</h5>
+        </section>
+
+        <section class="profile">
+
+            <div class="container">
+                
+                <div class="profilerow">
+
+                    <div class="profilecontain profileone">
+                        <div class="profile-col-img">
+                            <img src="/images/mph.jpg" alt="">
+                        </div>
+                    </div>
+                    <div class="profilecontain">
+                        <h2>Generate Coupon</h2>
+                        <%- include("./partials/messages") %>
+                        <form action="/generate" method="POST"> 
+                            <input type="text" name="package"  id="" placeholder="Package Name" required>
+                            <input type="text" name="price" id="" placeholder="Enter Price of Coupon" required>
+                            <input type="text" name="ROI" id="" placeholder="Expected ROI After 30 days" required>
+                            <button type="submit">Generate Coupon</button>
+                        </form>
+                    </div>
+
+                    <div class="profilecontain">
+                        <h2 class="title1">Tables</h2>
+					<div class="panel-body widget-shadow">
+						<h4>Vendors Information</h4>
+						<table class="table">
+							<thead>
+								<tr>
+								  <th>#</th>
+								  <th>Coupon Code</th>
+								  <th>Plan</th>
+								  <th>Coupon Price</th>
+                                  <th>Expected ROI</th>
+								</tr>
+							</thead>
+							<tbody>
+									<% var num = 0 %>
+									<% for (var i = 0; i < coupons.length; i++) {%>
+										<tr>
+											<% num+= 1 %>
+											<th scope="row"><%= num %></th>
+											<td><%= coupons[i].couponCode %></td>
+											<td><%= coupons[i].plan %></td>
+											<td><%= coupons[i].price %></td>
+                                            <td><%= coupons[i].roi %></td>
+											<td>
+												<button class="delete-doc" id="<%= users[i]._id %>" type="button">Delete Vendor</button>
+											</td>
+										</tr>
+									<%}%>
+							</tbody>
+						</table>
+					</div>
+                    </div>
+
+                </div>
+
+            </div>
+
+        </section>
+
+        <footer>
+            <p>mphunds 2021</p>
+        </footer>
+
+    </div>
+
+
+    <script src="/js/script.js"></script>
+    <script src="/js/all.js"></script>
+
+</body>
+</html>
