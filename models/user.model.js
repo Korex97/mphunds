@@ -38,6 +38,9 @@ const userSchema = new mongoose.Schema({
     package: {
         type: String
     },
+    roi:{
+        type: Number
+    },
     coupons: [{
         couponCode: String,
         price: Number,
