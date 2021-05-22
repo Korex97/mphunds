@@ -221,7 +221,7 @@ router.post("/generate", ensureAuthenticated, (req, res) => {
 router.post("/coupon/delete", (req, res) => {
   var userId = req.body.userId;
   console.log(userId)
-  User.findById(userId)
+  User.find({couponCode: userId})
       .then( value => {
           if (value) {
               console.log(value);
