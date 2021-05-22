@@ -6,6 +6,10 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
     <link rel="stylesheet" href="/css/index.css">
+    <link href="/css/font-awesome.css" rel="stylesheet">
+    <link href="/css/bootstrap.css" rel='stylesheet' type='text/css' />
+    <link rel="stylesheet" href="/css/bootstrap.min.css">
+    
 </head>
 <body>
     
@@ -50,11 +54,24 @@
                     <div class="profilecontain login-col-2">
                         <h2>Generate Coupon</h2>
                         <%- include("./partials/messages") %>
-                        <form action="/generate" method="POST"> 
+                        <!-- <form action="/generate" method="POST"> 
                             <input type="text" name="package"  id="" placeholder="Package Name" required>
                             <input type="text" name="price" id="" placeholder="Enter Price of Coupon" required>
                             <input type="text" name="ROI" id="" placeholder="Expected ROI After 30 days" required>
                             <button type="submit">Generate Coupon</button>
+                        </form> -->
+                        <form action="/generate" method="POST">
+                            <select name="package" id="myselect" required>
+                                <option value="">Select An Investment Plan</option>
+                                <option value="Copper Plan">Copper Plan</option>
+                                <option value="Violet Plan">Violet Plan</option>
+                                <option value="Standard Plan">Standard Plan</option>
+                                <option value="Bronze Plan">Bronze Plan</option>
+                                <option value="Premium Plan">Premium Plan</option>
+                                <option value="Platinum Plan">Platinum Plan</option>
+                                <option value="Silver Plan">Silver Plan</option>
+                                <option value="Gold Plan">Gold Plan</option>
+                            </select>
                         </form>
                     </div>
 
@@ -107,6 +124,7 @@
 
     <script src="/js/script.js"></script>
     <script src="/js/all.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
 
 </body>
 </html>
