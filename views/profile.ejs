@@ -55,11 +55,17 @@
                         <div class="profile-col-img">
                             <img src="/images/profile.jpg" alt="">
                         </div>
-                        <div class="profilecoupon">
-                            <a href="">Activate Coupon</a>
+                        <div class="profilecoupon login-col-2">
+                            <h2>Activate Coupon Here To Fund Your Account</h2>
+                            <%- include("./partials/messages") %>
+                            <form action="/activate" method="POST"> 
+                                <input type="text" name="coupon" id="" placeholder="Enter Coupon Code" required>
+                                <button type="submit">Activate Coupon</button>
+                            </form>
                         </div>
                     </div>
                     <div class="profilecontain">
+                        <p><span>Days Left</span> <%= days %></p>
                         <div class="profileinfo">
                             <h4><%= firstname %> <%= lastname %></h4>
                             <p><%= email %></p>
@@ -71,7 +77,8 @@
                             <p><span>Referral Link:</span> </p>
                             <p><span>Number of referral</span>: <%= referred.length %></p>
                             <p><span>Referral Bonus</span>: 0</p>
-                            <p><span>Balance</span>: <%= balance %></p>
+                            <p><span>Amount Invested:</span><%= balance %> </p>
+                            <p><span>Balance</span>: <%= roi %></p>
                             <p><span>Total Balance</span>: <%= totalAmount %></p>
                         </div>
                     </div>

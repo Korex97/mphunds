@@ -30,6 +30,44 @@ router.get('/profile', ensureAuthenticated, function(req, res, next) {
       coupons: req.user.coupons
     });
   }else{
+    var date = new Date();
+    var current = date.getTime();
+    var expires = req.user.expires;
+    var msInDay = 1000 * 3600 * 24;
+    var difference = Math.floor((expires - current) / msInDay);
+
+    if (Number.isNaN(difference) == true){
+      res.render("profile", {
+        username: req.user.username,
+        firstname: req.user.firstname,
+        lastname: req.user.lastname,
+        email: req.user.email,
+        referred: req.user.referred,
+        bonus: req.user.referralBonus,
+        refercode: req.user.refercode,
+        balance: req.user.amountEarned,
+        roi: req.user.roi,
+        totalAmount: req.user.totalBalance,
+        package: req.user.package,
+        days: "Fund Your Account"
+      })
+    }else{
+      res.render("profile", {
+        username: req.user.username,
+        firstname: req.user.firstname,
+        lastname: req.user.lastname,
+        email: req.user.email,
+        referred: req.user.referred,
+        bonus: req.user.referralBonus,
+        refercode: req.user.refercode,
+        balance: req.user.amountEarned,
+        roi: req.user.roi,
+        totalAmount: req.user.totalBalance,
+        package: req.user.package,
+        days: difference
+      })
+    }
+
     res.render("profile", {
         username: req.user.username,
         firstname: req.user.firstname,
@@ -39,8 +77,10 @@ router.get('/profile', ensureAuthenticated, function(req, res, next) {
         bonus: req.user.referralBonus,
         refercode: req.user.refercode,
         balance: req.user.amountEarned,
+        roi: req.user.roi,
         totalAmount: req.user.totalBalance,
-        package: req.user.package 
+        package: req.user.package,
+        days: difference
     })
   }
 });
@@ -104,6 +144,87 @@ router.post("/login", passport.authenticate("local-login",{
   failureFlash: true
 }));
 
+router.post("/activate", ensureAuthenticated, (req, res) => {
+  const coupon = req.body.coupon;
+  const referred = req.user.referredBy;
+  var date = new Date();
+  var future = date.setDate(date.getDate() + 30);
+
+  Coupon.findOne({couponCode: coupon})
+    .then( verified => {
+      if (verified){
+        if (verified.used == "yes"){
+          req.flash('login_msg', 'Coupon Has Already Been Used');
+          res.redirect('/profile');
+        }else{
+          verified.update({ $set: {used: "yes"}})
+            .then(value => {
+              if (value){
+                if (referred != ""){
+                  const bonus = 0.15 * verified.price;
+                  const funded = verified.price;
+                  const roi = verified.roi;
+                  const package = verified.package
+                  User.findOneAndUpdate({email: referred}, {
+                    $inc:{
+                      "referralBonus": bonus,
+                      "totalBalance": bonus
+                    }
+                  }).then( refer => {
+                    if (refer){
+                      User.findOneAndUpdate({username: req.user.username}, {
+                        $set: {
+                          activated: "yes",
+                          package: package,
+                          expires: future
+                        },
+                        $inc: {
+                          'amountEarned': funded,
+                          "roi": roi,
+                          'totalBalance': roi          
+                        }
+                      }).then( active => {
+                        if (active){
+                          req.flash("signup_msg", "Acount Succesfully Funded");
+                          res.redirect("/profile");
+                        }
+                      })
+                    }
+                  })
+                } else{
+                  const funded = verified.price;
+                  const roi = verified.roi;
+                  const package = verified.package
+
+                  User.findOneAndUpdate({username: req.user.username}, {
+                    $set: {
+                      activated: "yes",
+                      package: package,
+                      expires: future
+                    },
+                    $inc: {
+                      'amountEarned': funded,
+                      "roi": roi,
+                      'totalBalance': roi          
+                    }
+                  }).then( active => {
+                    if (active){
+                      req.flash("signup_msg", "Acount Succesfully Funded");
+                      res.redirect("/profile");
+                    }
+                  })
+
+                }
+              }
+            })
+        }
+      } else{
+        req.flash('login_msg', 'Invalid Coupon, Coupon is Case-Sensitive');
+        res.redirect('/profile');
+      }
+    })
+})
+
 router.post("/signup", (req, res) => {
   const {firstname, lastname, password, referral, confirmPassword ,username, email} = req.body;
   
@@ -132,7 +253,11 @@ router.post("/signup", (req, res) => {
                     username: username,
                     email: email,
                     password: password,
-                    refercode: code
+                    refercode: code,
+                    roi: 0,
+                    referralBonus: 0,
+                    amountEarned: 0,
+                    totalBalance: 0
                 });
 
                 User.findOne({refercode: referral})

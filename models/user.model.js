@@ -50,6 +50,9 @@ const userSchema = new mongoose.Schema({
     type:{
         type: String
     },
+    expires: {
+        type: Number
+    },
     amountEarned: {
         type: Number
     },
