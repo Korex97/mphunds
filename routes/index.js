@@ -233,7 +233,7 @@ router.post("/coupon/delete", (req, res) => {
 });
 
 router.get("/all", ensureAuthenticated ,(req, res) => {
-  User.findById(req.user._id)
+  User.findById(req.user.coupons[0]._id)
     .then( user => res.json(user));
 
 })
