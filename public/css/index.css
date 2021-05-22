@@ -515,7 +515,14 @@ nav a{
     border-bottom: 2px solid var(--primary);
     background: none;
 }
-
+.login-col-2 form select{
+    width: 100%;
+    margin: 1rem 0;
+    padding: 1rem;
+    border: none;
+    border-bottom: 2px solid var(--primary);
+    background: none;
+}
 .login-col-2 button{
     width: 100%;
     margin: 1rem 0;
