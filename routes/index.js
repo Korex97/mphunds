@@ -221,7 +221,7 @@ router.post("/generate", ensureAuthenticated, (req, res) => {
 router.post("/coupon/delete", (req, res) => {
   var userId = req.body.userId;
   console.log(userId)
-  User.find({couponCode: userId})
+  User.find({'coupons.couponCode': userId})
       .then( value => {
           if (value) {
               console.log(value);
@@ -232,9 +232,9 @@ router.post("/coupon/delete", (req, res) => {
       })
 });
 
-router.get("/all", ensureAuthenticated ,(req, res) => {
-  User.findById(req.user.coupons[0]._id)
-    .then( user => res.json(user));
+// router.get("/all", ensureAuthenticated ,(req, res) => {
+//   User.findById(req.user.coupons[0]._id)
+//     .then( user => res.json(user));
 
-})
+// })
 module.exports = router
