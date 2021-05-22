@@ -459,6 +459,11 @@ nav a{
     padding: .7rem;
     border: .5px solid var(--gray);
 }
+.profile form select{
+    width: 100%;
+    padding: .7rem;
+    border: .5px solid var(--gray);
+}
 
 .profile form input[type= submit]{
     background: var(--secondary);
