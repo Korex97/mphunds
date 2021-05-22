@@ -65,6 +65,11 @@
                         </div>
                     </div>
                     <div class="profilecontain">
+                        <% if ( days == "Fund Your Account") { %>
+                            <a href="/coupon">Click Here to Fund Your Account From Coupon Vendor</a>
+                        <% } else{ %>
+                            <p><%= days %><span>Days Left For Withdrawal</span></p>
+                        <% } %>
                         <p><span>Days Left</span> <%= days %></p>
                         <div class="profileinfo">
                             <h4><%= firstname %> <%= lastname %></h4>
