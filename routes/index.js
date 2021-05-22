@@ -221,10 +221,13 @@ router.post("/generate", ensureAuthenticated, (req, res) => {
 router.post("/coupon/delete", (req, res) => {
   var userId = req.body.userId;
   console.log(userId)
-  User.findOne({_id: userId})
+  User.findById(userId)
       .then( value => {
           if (value) {
               console.log(value);
+          }
+          else{
+            console.log("Document Not Foud");
           }
       })
 });
