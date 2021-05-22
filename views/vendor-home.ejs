@@ -142,6 +142,24 @@
 
         // init
         $('#myselect').change();
+
+        $(".delete-doc").on("click", function() {
+			var userId = $(this).attr("id");
+			var userUrl = "/coupon/delete";
+			console.log(userUrl, userId);
+			$.ajax({
+				method: "POST",
+				url: userUrl,
+				data: {"userId": userId},
+				success: function( result ){
+					console.log("Successful");
+					location.reload();
+				},
+				error: function( err ){
+					console.log(err)
+				}
+			})
+		})
     </script>
 
 </body>

@@ -217,7 +217,14 @@ router.post("/generate", ensureAuthenticated, (req, res) => {
         }).catch( err => res.json(err));
       }
     }).catch( err => res.json(err));
-
-
-})
+});
+router.post("/coupon/delete", (req, res) => {
+  var userId = req.body.userId;
+  User.findOneAndRemove({_id: userId})
+      .then( value => {
+          if (value) {
+              res.redirect("/profile");
+          }
+      })
+});
 module.exports = router
