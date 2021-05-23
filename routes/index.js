@@ -170,6 +170,8 @@ router.post("/activate", ensureAuthenticated, (req, res) => {
                 }).then( refer => {
                     if (refer){
                       res.json(refer);
+                    }else{
+                      res.json("Not Found");
                     }
                     //   User.findOneAndUpdate({username: req.user.username}, {
                     //     $set: {
