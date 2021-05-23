@@ -157,22 +157,21 @@ router.post("/activate", ensureAuthenticated, (req, res) => {
           req.flash('login_msg', 'Coupon Has Already Been Used');
           res.redirect('/profile');
         }else{
-              if (value){
-                const bonus = 0.15 * verified.price;
-                const funded = verified.price;
-                const roi = verified.roi;
-                const package = verified.package
-                User.findOneAndUpdate({email: referred}, {
-                  $inc:{
-                      "referralBonus": bonus,
-                      "totalBalance": bonus
-                  }
-                }).then( refer => {
-                    if (refer){
-                      res.json(refer);
-                    }else{
-                      res.json("Not Found");
-                    }
+            const bonus = 0.15 * verified.price;
+            const funded = verified.price;
+            const roi = verified.roi;
+            const package = verified.package
+            User.findOneAndUpdate({email: referred}, {
+              $inc:{
+                  "referralBonus": bonus,
+                  "totalBalance": bonus
+              }
+            }).then( refer => {
+                if (refer){
+                  res.json(refer);
+                }else{
+                  res.json("Not Found");
+                }
                     //   User.findOneAndUpdate({username: req.user.username}, {
                     //     $set: {
                     //       activated: "yes",
@@ -210,7 +209,6 @@ router.post("/activate", ensureAuthenticated, (req, res) => {
                     //   })
                     // }
                   })
-              }
         }
       } else{
         req.flash('login_msg', 'Invalid Coupon, Coupon is Case-Sensitive');
