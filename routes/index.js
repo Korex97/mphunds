@@ -160,18 +160,35 @@ router.post("/activate", ensureAuthenticated, (req, res) => {
           verified.update({ $set: {used: "yes"}})
             .then(value => {
               if (value){
-                if (referred != ""){
-                  const bonus = 0.15 * verified.price;
-                  const funded = verified.price;
-                  const roi = verified.roi;
-                  const package = verified.package
-                  User.findOneAndUpdate({email: referred}, {
-                    $inc:{
+                const bonus = 0.15 * verified.price;
+                const funded = verified.price;
+                const roi = verified.roi;
+                const package = verified.package
+                User.findOneAndUpdate({email: referred}, {
+                  $inc:{
                       "referralBonus": bonus,
                       "totalBalance": bonus
-                    }
-                  }).then( refer => {
+                  }
+                }).then( refer => {
                     if (refer){
+                      User.findOneAndUpdate({username: req.user.username}, {
+                        $set: {
+                          activated: "yes",
+                          package: package,
+                          expires: future
+                        },
+                        $inc: {
+                          'amountEarned': funded,
+                          "roi": roi,
+                          'totalBalance': roi          
+                        }
+                      }).then( active => {
+                        if (active){
+                          req.flash("signup_msg", "Acount Succesfully Funded");
+                          res.redirect("/profile");
+                        }
+                      })
+                    }else{
                       User.findOneAndUpdate({username: req.user.username}, {
                         $set: {
                           activated: "yes",
@@ -191,30 +208,6 @@ router.post("/activate", ensureAuthenticated, (req, res) => {
                       })
                     }
                   })
-                } else{
-                  const funded = verified.price;
-                  const roi = verified.roi;
-                  const package = verified.package
-
-                  User.findOneAndUpdate({username: req.user.username}, {
-                    $set: {
-                      activated: "yes",
-                      package: package,
-                      expires: future
-                    },
-                    $inc: {
-                      'amountEarned': funded,
-                      "roi": roi,
-                      'totalBalance': roi          
-                    }
-                  }).then( active => {
-                    if (active){
-                      req.flash("signup_msg", "Acount Succesfully Funded");
-                      res.redirect("/profile");
-                    }
-                  })
-
-                }
               }
             })
         }
