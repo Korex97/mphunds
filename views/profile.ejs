@@ -104,7 +104,13 @@
     <script src="/js/all.js"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
     <script>
-       console.log($(location).attr("hostname"));
+       var url = $(location).attr("hostname");
+       $(document.ready(function(){
+           $(".refer").each(function(){
+               var id = $(this).attr("id");
+               console.log(id);
+           })
+       }))
     </script>
 
 </body>
