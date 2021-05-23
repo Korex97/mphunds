@@ -103,7 +103,23 @@ router.get('/gen-income', function(req, res, next) {
 });
 
 router.get('/withdraw', ensureAuthenticated , function(req, res, next) {
-  res.render('withdraw');
+  var date = new Date();
+  var current = date.getTime();
+  var expires = req.user.expires;
+  var msInDay = 1000 * 3600 * 24;
+  var difference = Math.floor((expires - current) / msInDay);
+  if (Number.isNaN(difference) == true){
+    req.flash('login_msg', 'You Need To fund Your Acoount Before You can Withdraw');
+    res.redirect('/profie');
+  }
+  if( difference > 0 || difference == 0 ){
+    const message = difference.toString() + "Days Left Be Before You Can Withdraw"
+    req.flash('login_msg', message);
+    res.redirect('/profie');
+  }else{
+    res.render('withdraw');
+  }
+  
 });
 
 router.get('/tos', function(req, res, next) {
@@ -160,55 +176,96 @@ router.post("/activate", ensureAuthenticated, (req, res) => {
             const bonus = 0.15 * verified.price;
             const funded = verified.price;
             const roi = verified.roi;
-            const package = verified.package
-            User.findOneAndUpdate({email: referred}, {
-              $inc:{
-                  "referralBonus": bonus,
-                  "totalBalance": bonus
-              }
-            }).then( refer => {
-                if (refer){
-                  res.json(refer);
-                }else{
-                  res.json("Not Found");
-                }
-                    //   User.findOneAndUpdate({username: req.user.username}, {
-                    //     $set: {
-                    //       activated: "yes",
-                    //       package: package,
-                    //       expires: future
-                    //     },
-                    //     $inc: {
-                    //       'amountEarned': funded,
-                    //       "roi": roi,
-                    //       'totalBalance': roi          
-                    //     }
-                    //   }).then( active => {
-                    //     if (active){
-                    //       req.flash("signup_msg", "Acount Succesfully Funded");
-                    //       res.redirect("/profile");
-                    //     }
-                    //   })
-                    // }else{
-                    //   User.findOneAndUpdate({username: req.user.username}, {
-                    //     $set: {
-                    //       activated: "yes",
-                    //       package: package,
-                    //       expires: future
-                    //     },
-                    //     $inc: {
-                    //       'amountEarned': funded,
-                    //       "roi": roi,
-                    //       'totalBalance': roi          
-                    //     }
-                    //   }).then( active => {
-                    //     if (active){
-                    //       req.flash("signup_msg", "Acount Succesfully Funded");
-                    //       res.redirect("/profile");
-                    //     }
-                    //   })
-                    // }
+            const package = verified.package;
+            const act = req.user.activated;
+            if (act == "yes"){
+              User.findOneAndUpdate({username: req.user.username}, {
+                    $set: {
+                      activated: "yes",
+                      package: package,
+                      expires: future
+                    },
+                    $inc: {
+                      'amountEarned': funded,
+                      "roi": roi,
+                      'totalBalance': roi          
+                    }
+                  }).then( active => {
+                    if (active){
+                      Coupon.findOneAndUpdate({couponCode: coupon}, {
+                        $set: {
+                          used: "yes"
+                        }
+                      }).then( use => {
+                        if (use){
+                          req.flash("signup_msg", "Acount Succesfully Funded");
+                          res.redirect("/profile");
+                        }
+                      })
+                    }
                   })
+            } else {
+              User.findOneAndUpdate({email: referred}, {
+                $inc:{
+                    "referralBonus": bonus,
+                    "totalBalance": bonus
+                }
+              }).then( refer => {
+                  if (refer){
+                    User.findOneAndUpdate({username: req.user.username}, {
+                      $set: {
+                        activated: "yes",
+                        package: package,
+                        expires: future
+                      },
+                      $inc: {
+                        'amountEarned': funded,
+                        "roi": roi,
+                        'totalBalance': roi          
+                      }
+                    }).then( active => {
+                      if (active){
+                        Coupon.findOneAndUpdate({couponCode: coupon}, {
+                          $set: {
+                            used: "yes"
+                          }
+                        }).then( use => {
+                          if (use){
+                            req.flash("signup_msg", "Acount Succesfully Funded");
+                            res.redirect("/profile");
+                          }
+                        })
+                      }
+                    })
+                  } else {
+                    User.findOneAndUpdate({username: req.user.username}, {
+                      $set: {
+                        activated: "yes",
+                        package: package,
+                        expires: future
+                      },
+                      $inc: {
+                        'amountEarned': funded,
+                        "roi": roi,
+                        'totalBalance': roi          
+                      }
+                    }).then( active => {
+                      if (active){
+                        Coupon.findOneAndUpdate({couponCode: coupon}, {
+                          $set: {
+                            used: "yes"
+                          }
+                        }).then( use => {
+                          if (use){
+                            req.flash("signup_msg", "Acount Succesfully Funded");
+                            res.redirect("/profile");
+                          }
+                        })
+                      }
+                    })
+                  }
+              })
+            }
         }
       } else{
         req.flash('login_msg', 'Invalid Coupon, Coupon is Case-Sensitive');
