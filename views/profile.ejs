@@ -78,7 +78,7 @@
                         </div>
                         <div class="profilereferral">
                             <h4>Referral</h4>
-                            <p><span>Referral Link:</span> </p>
+                            <span>Referral Link:</span><a id="<%= refercode %>" class="refer"></a>
                             <p><span>Number of referral</span>: <%= referred.length %></p>
                             <p><span>Referral Bonus</span>: 0</p>
                             <p><span>Amount Invested:</span><%= balance %> </p>
@@ -102,6 +102,12 @@
 
     <script src="/js/script.js"></script>
     <script src="/js/all.js"></script>
+    <script>
+       const doc = document.getElementsByClassName(".refer");
+       const idValue =  doc[0].id;
+       doc[0].innerHTML = window.location.hostname + "/signup/" + idValue;
+       doc[0].href = window.location.hostname + "/signup/" + idValue;
+    </script>
 
 </body>
 </html>
