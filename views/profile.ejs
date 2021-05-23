@@ -108,7 +108,8 @@
        $(document).ready(function(){
            $(".refer").each(function(){
                var id = $(this).attr("id");
-               console.log(id);
+               var newUrl = url + "/signup/" + id;
+               console.log(newUrl);
            })
        })
     </script>
