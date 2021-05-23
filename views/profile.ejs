@@ -78,7 +78,7 @@
                         </div>
                         <div class="profilereferral">
                             <h4>Referral</h4>
-                            <span>Referral Link:</span><a id="<%= refercode %>" class="refer"></a>
+                            <p>Referral Link:<a id="<%= refercode %>" class="refer"></a></p>
                             <p><span>Number of referral</span>: <%= referred.length %></p>
                             <p><span>Referral Bonus</span>: 0</p>
                             <p><span>Amount Invested:</span><%= balance %> </p>
@@ -108,8 +108,9 @@
        $(document).ready(function(){
            $(".refer").each(function(){
                var id = $(this).attr("id");
+               var aTag = "/signup/" + id;
                var newUrl = url + "/signup/" + id;
-               $(this).attr("href", newUrl);
+               $(this).attr("href", aTag);
                $(this).html(newUrl);
            })
        })
