@@ -110,12 +110,12 @@ router.get('/withdraw', ensureAuthenticated , function(req, res, next) {
   var difference = Math.floor((expires - current) / msInDay);
   if (Number.isNaN(difference) == true){
     req.flash('login_msg', 'You Need To fund Your Acoount Before You can Withdraw');
-    res.redirect('/profie');
+    res.redirect('/profile');
   }
   if( difference > 0 || difference == 0 ){
     const message = difference.toString() + "Days Left Be Before You Can Withdraw"
     req.flash('login_msg', message);
-    res.redirect('/profie');
+    res.redirect('/profile');
   }else{
     res.render('withdraw');
   }
