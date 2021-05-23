@@ -157,8 +157,6 @@ router.post("/activate", ensureAuthenticated, (req, res) => {
           req.flash('login_msg', 'Coupon Has Already Been Used');
           res.redirect('/profile');
         }else{
-          verified.update({ $set: {used: "yes"}})
-            .then(value => {
               if (value){
                 const bonus = 0.15 * verified.price;
                 const funded = verified.price;
@@ -171,45 +169,46 @@ router.post("/activate", ensureAuthenticated, (req, res) => {
                   }
                 }).then( refer => {
                     if (refer){
-                      User.findOneAndUpdate({username: req.user.username}, {
-                        $set: {
-                          activated: "yes",
-                          package: package,
-                          expires: future
-                        },
-                        $inc: {
-                          'amountEarned': funded,
-                          "roi": roi,
-                          'totalBalance': roi          
-                        }
-                      }).then( active => {
-                        if (active){
-                          req.flash("signup_msg", "Acount Succesfully Funded");
-                          res.redirect("/profile");
-                        }
-                      })
-                    }else{
-                      User.findOneAndUpdate({username: req.user.username}, {
-                        $set: {
-                          activated: "yes",
-                          package: package,
-                          expires: future
-                        },
-                        $inc: {
-                          'amountEarned': funded,
-                          "roi": roi,
-                          'totalBalance': roi          
-                        }
-                      }).then( active => {
-                        if (active){
-                          req.flash("signup_msg", "Acount Succesfully Funded");
-                          res.redirect("/profile");
-                        }
-                      })
+                      res.json(refer);
                     }
+                    //   User.findOneAndUpdate({username: req.user.username}, {
+                    //     $set: {
+                    //       activated: "yes",
+                    //       package: package,
+                    //       expires: future
+                    //     },
+                    //     $inc: {
+                    //       'amountEarned': funded,
+                    //       "roi": roi,
+                    //       'totalBalance': roi          
+                    //     }
+                    //   }).then( active => {
+                    //     if (active){
+                    //       req.flash("signup_msg", "Acount Succesfully Funded");
+                    //       res.redirect("/profile");
+                    //     }
+                    //   })
+                    // }else{
+                    //   User.findOneAndUpdate({username: req.user.username}, {
+                    //     $set: {
+                    //       activated: "yes",
+                    //       package: package,
+                    //       expires: future
+                    //     },
+                    //     $inc: {
+                    //       'amountEarned': funded,
+                    //       "roi": roi,
+                    //       'totalBalance': roi          
+                    //     }
+                    //   }).then( active => {
+                    //     if (active){
+                    //       req.flash("signup_msg", "Acount Succesfully Funded");
+                    //       res.redirect("/profile");
+                    //     }
+                    //   })
+                    // }
                   })
               }
-            })
         }
       } else{
         req.flash('login_msg', 'Invalid Coupon, Coupon is Case-Sensitive');
