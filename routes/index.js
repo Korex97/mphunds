@@ -29,6 +29,9 @@ router.get('/profile', ensureAuthenticated, function(req, res, next) {
     res.render("vendor-home", {
       coupons: req.user.coupons
     });
+  if (req.user.type == "admin"){
+    res.redirect("/admin-home")
+  }
   }else{
     var date = new Date();
     var current = date.getTime();
@@ -125,6 +128,30 @@ router.get('/withdraw', ensureAuthenticated , function(req, res, next) {
 router.get('/tos', function(req, res, next) {
   res.render('tos');
 });
+router.get('/admin-home', ensureAuthenticated ,function(req, res, next) {
+  User.find()
+        .then(users => {
+            if (users){
+                Withdraw.find()
+                    .then( withdraw => {
+                        if (withdraw){
+                            res.render('admin-home', {
+                                users: users,
+                                withdraw: withdraw
+                            })
+                        }
+                    })
+            }
+        })
+});
+router.get("/admin-register", (req, res) => {
+  res.render("admin-register");
+})
+router.get("/vendor/:userId", ensureAuthenticated, (req, res) => {
+  var userId = req.params.userId;
+  User.findOne({_id: userId})
+      .then( value => res.render("admin-edit", {user: value}))
+});
 
 router.get('/signup', function(req, res, next) {
   res.render('signin', {code: ""});
@@ -153,6 +180,52 @@ router.get('/logout', function(req, res, next) {
 });
 
 //Post Requests
+router.post("/user/delete", ensureAuthenticated, (req, res) => {
+  var userId = req.body.userId;
+  User.findOneAndDelete({_id: userId})
+      .then( value => {
+          if (value) {
+              res.redirect("/profile");
+          }
+      })
+});
+router.post("/vendor/:userId", ensureAuthenticated, (req, res) => {
+  var userId = req.params.userId;
+  var username = req.body.username;
+  var email = req.body.email;
+  var phone = req.body.phone;
+
+  User.findOneAndUpdate({_id: userId}, {
+    $set:{
+      username: username,
+      email: email,
+      phone: phone
+    }
+  }).then( value => {
+    if (value){
+      req.flash('login_msg', 'Vendor Profile Successfully Updated');
+      res.redirect('/profile');
+    }
+  })
+});
+
+router.post("/pay", ensureAuthenticated ,(req, res) => {
+  var userId = req.body.userId;
+
+  Withdraw.findOne({_id: userId})
+      .then(value => {
+          if (value) {
+              if (value.paid == "yes"){
+                  res.redirect("/profile");
+              }else{
+                  value.update({
+                      $set: {paid: "yes"}
+                  }).then( pay => res.redirect("/profile"));
+              }
+          }
+      })
+      .catch( err => res.json(err));
+});
 
 router.post("/login", passport.authenticate("local-login",{
   successRedirect: "/profile",
@@ -272,7 +345,7 @@ router.post("/activate", ensureAuthenticated, (req, res) => {
         res.redirect('/profile');
       }
     })
-})
+});
 
 router.post("/signup", (req, res) => {
   const {firstname, lastname, password, referral, confirmPassword ,username, email} = req.body;
@@ -392,6 +465,89 @@ router.post("/generate", ensureAuthenticated, (req, res) => {
       }
     }).catch( err => res.json(err));
 });
+router.post("/withdraw", ensureAuthenticated, (req, res) => {
+  var username = req.user.username;
+  var accountName = req.body.accountName;
+  var bankName = req.body.bankName;
+  var accountNumber = req.body.accountNumber;
+  var amount = req.body.amount;
+  var remaining;
+  let errors = [];
+
+  User.findOne({username: username})
+      .then( value => {
+          if (value){
+              var TotalBalance = value.totalBalance;
+              if (amount <= TotalBalance) {
+                  remaining = TotalBalance - amount;
+                  value.update({
+                      $set: {
+                          "totalBalance": remaining
+                      }
+                  }).then( withdraw => {
+                      if (withdraw){
+                          const newWithdrawal = new Withdraw({
+                              username: username,
+                              accountName: accountName,
+                              bank: bankName,
+                              accountNumber: accountNumber,
+                              amount: amount,
+                              balance: remaining
+                          });
+                      
+                          newWithdrawal.save()
+                              .then(withdraw => {
+                                  if (withdraw){
+                                      req.flash(`login_msg`, 'Withdrawal Successfully Requested');
+                                      res.redirect('/withdraw');
+                                  }
+                              })
+                              .catch(err => console.log(err));
+                      }
+                  })
+              }
+              else{
+                  req.flash(`login_msg`, 'Insufficient Funds');
+                  res.redirect('/withdraw');
+              }
+          }
+      })
+});
+vendorRouter.post("/vendor-signup", (req, res) => {
+  const {username, password, confirmPassword } = req.body;
+
+  if (password.length < 6){
+    req.flash("signup_msg", "Password Must be More than 6 characters");
+    res.redirect("/admin-register");
+  }
+  
+  if ( password == confirmPassword) {
+      const newAdmin = new User({
+          email: username,
+          password: password,
+          type: "admin"
+      })
+
+      bcrypt.genSalt(10, (err, salt) => {
+        bcrypt.hash(newAdmin.password, salt, (err, hash) => {
+          if (err) throw err;
+            newAdmin.password = hash;
+
+              newAdmin.save()
+                .then( vendor => {
+                  if ( vendor ) {
+                      req.flash("signup_msg", "You are now Registered, Kindly Login");
+                      res.redirect("/login");
+                  }
+                })
+        })
+      })
+  } else {
+    req.flash("signup_msg", "Password Doesn't Match");
+    res.redirect("/admin-register");
+  }
+
+})
 router.post("/coupon/delete", (req, res) => {
   var userId = req.body.userId;
   console.log(userId)

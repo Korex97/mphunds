@@ -1,0 +1,224 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="/css/index.css">
+    <link href="/css/font-awesome.css" rel="stylesheet">
+    <link href="/css/bootstrap.css" rel='stylesheet' type='text/css'/>
+    
+</head>
+<body>
+    
+    <div class="container-fluid">
+
+         <!--Header-->
+         <section class="bar">
+
+        </section>
+
+        <nav>
+            <div class="container">
+                <div class="nav-container">
+                    <div class="btn">
+                        <div class="navbar"></div>
+                        <div class="navbar"></div>
+                        <div class="navbar"></div>
+                    </div>
+                </div>
+                <ul class="navul">
+                    <li><a href="/logout">LogOut</a></li>
+                </ul>
+            </div>
+        </nav>
+
+        <section class="logo">
+            <h1>Mphunds</h1>
+            <h5>INVEST IN YOUR FUTURE</h5>
+        </section>
+
+        <section class="profile">
+
+            <div class="container">
+                <%- include("./partials/messages") %>
+                <div class="profilerow">
+                    <div class="profilecontain">
+                        <h2 class="title1">Tables</h2>
+					<div class="panel-body widget-shadow">
+						<h4>Users Information</h4>
+						<table class="table">
+							<thead>
+								<tr>
+								  <th>#</th>
+								  <th>Username</th>
+								  <th>Email</th>
+								  <th>Amount Invested</th>
+                                  <th>Expected ROI</th>
+								</tr>
+							</thead>
+							<tbody>
+									<% var num = 0 %>
+									<% for (var i = 0; i < users.length; i++) {%>
+                                        <% if (users[i].type == "") { %> 
+										    <tr>
+											    <% num+= 1 %>
+											    <th scope="row"><%= num %></th>
+											    <td><%= users[i].username %></td>
+											    <td><%= users[i].email %></td>
+											    <td><%= users[i].amountEarned %></td>
+                                                <td><%= users[i].roi %></td>
+											    <td>
+												    <button class="delete-doc" id="<%= uses[i]._id %>" type="button">Delete User</button>
+											    </td>
+										    </tr>
+                                        <%}%>
+									<%}%>
+							</tbody>
+						</table>
+					</div>
+                    <div class="panel-body widget-shadow">
+						<h4>Vendors Information</h4>
+						<table class="table">
+							<thead>
+								<tr>
+								  <th>#</th>
+								  <th>Username</th>
+								  <th>Email</th>
+                                  <th>Phone Number</th>
+								  <th>Number Of Coupon Generated</th>
+								</tr>
+							</thead>
+							<tbody>
+									<% var num = 0 %>
+									<% for (var i = 0; i < coupons.length; i++) {%>
+                                        <% if (users[i].type == "vendor") {%> 
+										    <tr>
+											    <% num+= 1 %>
+											    <th scope="row"><%= num %></th>
+											    <td><%= users[i].username %></td>
+											    <td><%= users[i].email %></td>
+											    <td><%= coupons[i].phone %></td>
+                                                <td><%= coupons[i].coupons.length %></td>
+                                                <td>
+                                                    <button class="edit-doc" id="<%= users[i]._id %>" type="button">
+                                                    <a href="/vendor/<%= users[i]._id %>" style="text-decoration: none; color: #000000;">
+                                                        Edit User
+                                                    </a>
+                                                    </button>
+                                                </td>
+											    <td>
+												    <button class="delete-doc" id="<%= users[i]._id %>" type="button">Delete Vendor</button>
+											    </td>
+										    </tr>
+                                        <%}%>
+									<%}%>
+							</tbody>
+						</table>
+					</div>
+
+                    <div class="panel-body widget-shadow">
+						<h4>Withdrawal Information</h4>
+						<table class="table">
+							<thead>
+								<tr>
+								  <th>#</th>
+								  <th>Username</th>
+								  <th>Account Number</th>
+                                  <th>Bank Name</th>
+								  <th>Account Name</th>
+                                  <th>User Balance</th>
+								</tr>
+							</thead>
+							<tbody>
+									<% var num = 0 %>
+									<% for (var i = 0; i < withdraw.length; i++) {%>
+										<tr>
+											<% num+= 1 %>
+											<th scope="row"><%= num %></th>
+											<td><%= withdraw[i].username %></td>
+											<td><%= withdraw[i].accountNumber %></td>
+											<td><%= withdraw[i].bank %></td>
+                                            <td><%= withdraw[i].accountName %></td>
+                                            <td><%= withdraw[i].balance %></td>
+											<% if (withdraw[i].paid == "yes") { %>
+												<td>
+													<button style="background-color: green; 
+													color: #ffffff; 
+													border: 1px solid black; 
+													border-radius: 5px;" class="paid-doc" id="<%= withdraw[i]._id %>" type="button"> Paid </button>
+												</td>	
+											<% }else{ %>
+												<td>
+												<button style="background-color: #FF0000; 
+												color: #ffffff;
+												border: 1px solid black; 
+												border-radius: 5px;" class="paid-doc" id="<%= withdraw[i]._id %>" type="button"> Not Paid</button>
+											</td>
+											<% } %>
+
+										</tr>
+									<%}%>
+							</tbody>
+						</table>
+					</div>
+                    
+
+                    
+                </div>
+
+                </div>
+
+            </div>
+
+        </section>
+
+        <footer>
+            <p>mphunds 2021</p>
+        </footer>
+
+    </div>
+
+
+    <script src="/js/script.js"></script>
+    <script src="/js/all.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+    <script>
+        $(".delete-doc").on("click", function() {
+			var userId = $(this).attr("id");
+			var userUrl = "/user/delete";
+			console.log(userUrl, userId);
+			$.ajax({
+				method: "POST",
+				url: userUrl,
+				data: {"userId": userId},
+				success: function( result ){
+					console.log("Successful");
+					location.reload();
+				},
+				error: function( err ){
+					console.log(err)
+				}
+			})
+		})
+        $(".paid-doc").on("click", function(){
+			var userId = $(this).attr("id");
+			var userUrl = "/pay";
+			console.log(userUrl, userId);
+			$.ajax({
+				method: "POST",
+				url: userUrl,
+				data: {"userId": userId},
+				success: function( result ){
+					console.log("Successful");
+					location.reload();
+				},
+				error: function( err ){
+					console.log(err)
+				}
+			})
+		})
+    </script>
+</body>
+</html>

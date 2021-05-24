@@ -47,14 +47,13 @@
                 <section class="withdraw">
 
                     <div class="container">
-
-                        <form action="">
-
-                            <input type="number" name="" id="" placeholder="Account Number">
-                            <input type="text" name="" id="" placeholder="Account Name">
-                            <input type="number" name="" id="" placeholder="Amount">
-                            <button>Withdraw</button>
-
+                        <%- include("./partials/messages") %>
+                        <form action="/withdraw" method="POST">
+                            <input type="number" name="accountNumber" id="" placeholder="Enter Your Account Number">
+                            <input type="text" name="accountName" id="" placeholder="Enter Your Account Name">
+                            <input type="text" name="bankName" id="" placeholder="Enter Your Bank">
+                            <input type="number" name="amount" id="" placeholder="Amount You Want To Withdraw">
+                            <button type="submit">Withdraw</button>
                         </form>
 
                     </div>
