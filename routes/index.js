@@ -28,9 +28,22 @@ router.get('/profile', ensureAuthenticated, function(req, res, next) {
   if (req.user.type == "vendor"){
     res.render("vendor-home", {
       coupons: req.user.coupons
-    });
+  });
   if (req.user.type == "admin"){
-    res.redirect("/admin-home")
+      User.find()
+        .then(users => {
+            if (users){
+                Withdraw.find()
+                    .then( withdraw => {
+                        if (withdraw){
+                            res.render('admin-home', {
+                                users: users,
+                                withdraw: withdraw
+                            })
+                        }
+                    })
+            }
+      })
   }
   }else{
     var date = new Date();
@@ -128,22 +141,9 @@ router.get('/withdraw', ensureAuthenticated , function(req, res, next) {
 router.get('/tos', function(req, res, next) {
   res.render('tos');
 });
-router.get('/admin-home', ensureAuthenticated ,function(req, res, next) {
-  User.find()
-        .then(users => {
-            if (users){
-                Withdraw.find()
-                    .then( withdraw => {
-                        if (withdraw){
-                            res.render('admin-home', {
-                                users: users,
-                                withdraw: withdraw
-                            })
-                        }
-                    })
-            }
-        })
-});
+// router.get('/admin-home', ensureAuthenticated ,function(req, res, next) {
+  
+// });
 router.get("/admin-register", (req, res) => {
   res.render("admin-register");
 })

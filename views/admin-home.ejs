@@ -92,15 +92,15 @@
 							</thead>
 							<tbody>
 									<% var num = 0 %>
-									<% for (var i = 0; i < coupons.length; i++) {%>
+									<% for (var i = 0; i < users.length; i++) {%>
                                         <% if (users[i].type == "vendor") {%> 
 										    <tr>
 											    <% num+= 1 %>
 											    <th scope="row"><%= num %></th>
 											    <td><%= users[i].username %></td>
 											    <td><%= users[i].email %></td>
-											    <td><%= coupons[i].phone %></td>
-                                                <td><%= coupons[i].coupons.length %></td>
+											    <td><%= users[i].phone %></td>
+                                                <td><%= users[i].coupons.length %></td>
                                                 <td>
                                                     <button class="edit-doc" id="<%= users[i]._id %>" type="button">
                                                     <a href="/vendor/<%= users[i]._id %>" style="text-decoration: none; color: #000000;">
