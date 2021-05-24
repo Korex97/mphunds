@@ -24,91 +24,52 @@ router.get('/contact', function(req, res, next) {
   res.render('contact');
 });
 
-// router.get('/profile', ensureAuthenticated, function(req, res, next) {
-//   if (req.user.type == "vendor"){
-//     res.render("vendor-home", {
-//       coupons: req.user.coupons
-//   });
-//   if (req.user.type == "admin"){
-//       User.find()
-//         .then(users => {
-//             if (users){
-//                 Withdraw.find()
-//                     .then( withdraw => {
-//                         if (withdraw){
-//                             res.render('admin-home', {
-//                                 users: users,
-//                                 withdraw: withdraw
-//                             })
-//                         }
-//                     })
-//             }
-//       })
-//   }
-//   }else{
-//     var date = new Date();
-//     var current = date.getTime();
-//     var expires = req.user.expires;
-//     var msInDay = 1000 * 3600 * 24;
-//     var difference = Math.floor((expires - current) / msInDay);
-
-//     if (Number.isNaN(difference) == true){
-//       res.render("profile", {
-//         username: req.user.username,
-//         firstname: req.user.firstname,
-//         lastname: req.user.lastname,
-//         email: req.user.email,
-//         referred: req.user.referred,
-//         bonus: req.user.referralBonus,
-//         refercode: req.user.refercode,
-//         balance: req.user.amountEarned,
-//         roi: req.user.roi,
-//         totalAmount: req.user.totalBalance,
-//         package: req.user.package,
-//         days: "Fund Your Account"
-//       })
-//     }else{
-//       res.render("profile", {
-//         username: req.user.username,
-//         firstname: req.user.firstname,
-//         lastname: req.user.lastname,
-//         email: req.user.email,
-//         referred: req.user.referred,
-//         bonus: req.user.referralBonus,
-//         refercode: req.user.refercode,
-//         balance: req.user.amountEarned,
-//         roi: req.user.roi,
-//         totalAmount: req.user.totalBalance,
-//         package: req.user.package,
-//         days: difference
-//       })
-//     }
-
-//     res.render("profile", {
-//         username: req.user.username,
-//         firstname: req.user.firstname,
-//         lastname: req.user.lastname,
-//         email: req.user.email,
-//         referred: req.user.referred,
-//         bonus: req.user.referralBonus,
-//         refercode: req.user.refercode,
-//         balance: req.user.amountEarned,
-//         roi: req.user.roi,
-//         totalAmount: req.user.totalBalance,
-//         package: req.user.package,
-//         days: difference
-//     })
-//   }
-// });
-
 router.get('/profile', ensureAuthenticated, function(req, res, next) {
   if (req.user.type == "vendor"){
-    res.json("vendor")
+      res.render("vendor-home", {
+      coupons: req.user.coupons
+    });
   }else{
     if(req.user.type == "admin"){
-      res.json("admin")
+      res.redirect("/admin-home")
     }else{
-      res.json("user");
+      var date = new Date();
+      var current = date.getTime();
+      var expires = req.user.expires;
+      var msInDay = 1000 * 3600 * 24;
+      var difference = Math.floor((expires - current) / msInDay);
+
+      if (Number.isNaN(difference) == true){
+        res.render("profile", {
+          username: req.user.username,
+          firstname: req.user.firstname,
+          lastname: req.user.lastname,
+          email: req.user.email,
+          referred: req.user.referred,
+          bonus: req.user.referralBonus,
+          refercode: req.user.refercode,
+          balance: req.user.amountEarned,
+          roi: req.user.roi,
+          totalAmount: req.user.totalBalance,
+          package: req.user.package,
+          days: "Fund Your Account"
+        })
+      }else{
+          res.render("profile", {
+          username: req.user.username,
+          firstname: req.user.firstname,
+          lastname: req.user.lastname,
+          email: req.user.email,
+          referred: req.user.referred,
+          bonus: req.user.referralBonus,
+          refercode: req.user.refercode,
+          balance: req.user.amountEarned,
+          roi: req.user.roi,
+          totalAmount: req.user.totalBalance,
+          package: req.user.package,
+          days: difference
+        })
+      }
     }
   }
 })
@@ -158,6 +119,22 @@ router.get('/tos', function(req, res, next) {
 // });
 router.get("/admin-register", (req, res) => {
   res.render("admin-register");
+})
+router.get("/admin-home", ensureAuthenticated, (req, res) => {
+  User.find()
+        .then(users => {
+            if (users){
+                Withdraw.find()
+                    .then( withdraw => {
+                        if (withdraw){
+                            res.render('admin-home', {
+                                users: users,
+                                withdraw: withdraw
+                            })
+                        }
+                    })
+            }
+      })
 })
 router.get("/vendor/:userId", ensureAuthenticated, (req, res) => {
   var userId = req.params.userId;
