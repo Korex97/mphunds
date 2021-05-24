@@ -548,9 +548,7 @@ router.post("/coupon/delete", (req, res) => {
     }
   },{safe: true, upsert: true}).then( pulled => {
     if (pulled) {
-      console.log(pulled);
-    }else{
-      console.log("Wrong Approach");
+      res.redirect("/profile")
     }
   })
 });
