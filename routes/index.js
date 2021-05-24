@@ -224,24 +224,25 @@ router.get("/exportcsv", ensureAuthenticated ,(req, res) => {
   Withdraw.find({paid: "no"})
       .then( value => {
           if (value){
-              for (var i = 0; i < value.length; i++) {
-                  data.push([
-                      value[i].accountName,
-                      value[i].bank,
-                      value[i].accountNumber,
-                      value[i].amount
-                  ])
-              }
-              Withdraw.deleteMany({paid: "no"})
-                  .then( success => {
-                      var ws = fieSystem.createWriteStream("public/data.csv");
-                      fastcsv
-                          .write(data, {headers: ["Account Name", "Bank", "Account Number", "Amount"]})
-                          .on("finish", function() {
-                              res.send("<a href='/data.csv' download= 'data.csv' id='download-link'></a><script>document.getElementById('download-link').click();</script>")
-                          })
-                          .pipe(ws);
-                  })
+              res.json(value);
+              // for (var i = 0; i < value.length; i++) {
+              //     data.push([
+              //         value[i].accountName,
+              //         value[i].bank,
+              //         value[i].accountNumber,
+              //         value[i].amount
+              //     ])
+              // }
+              // Withdraw.deleteMany({paid: "no"})
+              //     .then( success => {
+              //         var ws = fieSystem.createWriteStream("public/data.csv");
+              //         fastcsv
+              //             .write(data, {headers: ["Account Name", "Bank", "Account Number", "Amount"]})
+              //             .on("finish", function() {
+              //                 res.send("<a href='/data.csv' download= 'data.csv' id='download-link'></a><script>document.getElementById('download-link').click();</script>")
+              //             })
+              //             .pipe(ws);
+              //     })
           }else{
             req.flash('login_msg', 'No Entry on withdrawal list');
             res.redirect('/profile');
