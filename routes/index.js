@@ -223,7 +223,7 @@ router.get("/exportcsv", ensureAuthenticated ,(req, res) => {
 
   Withdraw.find({paid: "no"})
       .then( value => {
-          if (value){
+          if (value.length > 0){
               res.json(value);
               // for (var i = 0; i < value.length; i++) {
               //     data.push([
