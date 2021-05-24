@@ -549,7 +549,7 @@ router.post("/coupon/delete", (req, res) => {
     }
   }).then( pulled => {
     if (pulled) {
-      console.log("Successful")
+      console.log(pulled);
     }else{
       console.log("Wrong Approach");
     }
