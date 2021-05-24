@@ -548,6 +548,7 @@ router.post("/coupon/delete", (req, res) => {
     }
   },{safe: true, upsert: true}).then( pulled => {
     if (pulled) {
+      req.flash("signup_msg", "Coupon Successfully Deleted");
       res.redirect("/profile")
     }
   })

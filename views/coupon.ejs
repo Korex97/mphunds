@@ -51,7 +51,7 @@
                 <h1>Coupon Vendors</h1>
                 <ol>
                     <% for(var i=0; i < vendors.length; i++){ %>
-                        <li>Daniel - <a href="https://api.whatsapp.com/send?phone=234<%= vendors[i].phone %>&text=Hello%20I%20am%20interested%20in%20Buying%20a%20Coupon%20For%20the%20Mphunds%20Investment">Message <%= vendors[i].username %> on whatsapp to get a coupon code</span></li>
+                        <li><%= vendors[i].username %> - <a href="https://api.whatsapp.com/send?phone=234<%= vendors[i].phone %>&text=Hello%20I%20am%20interested%20in%20Buying%20a%20Coupon%20For%20the%20Mphunds%20Investment">Message <%= vendors[i].username %> on whatsapp to get a coupon code</span></li>
                     <% } %>
                 </ol>
             </div>
