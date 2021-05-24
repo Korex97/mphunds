@@ -513,7 +513,7 @@ router.post("/withdraw", ensureAuthenticated, (req, res) => {
           }
       })
 });
-vendorRouter.post("/vendor-signup", (req, res) => {
+router.post("/admin-signup", (req, res) => {
   const {username, password, confirmPassword } = req.body;
 
   if (password.length < 6){
