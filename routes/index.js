@@ -541,16 +541,19 @@ router.post("/coupon/delete", (req, res) => {
   var userId = req.body.userId;
   var id = req.user._id;
   console.log(userId, id);
+  var pulling = "coupons[0]"
 
-  // User.find({'coupons.couponCode': userId})
-  //     .then( value => {
-  //         if (value) {
-  //             console.log(value);
-  //         }
-  //         else{
-  //           console.log("Document Not Foud");
-  //         }
-  //     })
+  User.findByIdAndUpdate(id, {
+    $pullAll: {
+      pulling
+    }
+  }).then( pulled => {
+    if (pulled) {
+      console.log("Successful")
+    }else{
+      console.log("Wrong Approach");
+    }
+  })
 });
 
 // router.get("/all", ensureAuthenticated ,(req, res) => {
