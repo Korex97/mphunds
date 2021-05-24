@@ -541,13 +541,12 @@ router.post("/coupon/delete", (req, res) => {
   var userId = req.body.userId;
   var id = req.user._id;
   console.log(userId, id);
-  var pulling = "coupons[0]"
 
   User.findByIdAndUpdate(id, {
-    $pullAll: {
-      pulling
+    $pull: {
+      "coupons": {_id: userId}
     }
-  }).then( pulled => {
+  },{safe: true, upsert: true}).then( pulled => {
     if (pulled) {
       console.log(pulled);
     }else{
