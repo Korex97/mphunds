@@ -539,16 +539,18 @@ router.post("/admin-signup", (req, res) => {
 })
 router.post("/coupon/delete", (req, res) => {
   var userId = req.body.userId;
-  console.log(userId)
-  User.find({'coupons.couponCode': userId})
-      .then( value => {
-          if (value) {
-              console.log(value);
-          }
-          else{
-            console.log("Document Not Foud");
-          }
-      })
+  var id = req.user._id;
+  console.log(userId, id);
+
+  // User.find({'coupons.couponCode': userId})
+  //     .then( value => {
+  //         if (value) {
+  //             console.log(value);
+  //         }
+  //         else{
+  //           console.log("Document Not Foud");
+  //         }
+  //     })
 });
 
 // router.get("/all", ensureAuthenticated ,(req, res) => {
