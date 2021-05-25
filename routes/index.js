@@ -482,7 +482,8 @@ router.post("/generate", ensureAuthenticated, (req, res) => {
           }
         }).then( updated => {
           if (updated) {
-            res.redirect("/profile");
+            req.flash(`signup_msg`, "Coupon Successfully Generated");
+            res.redirect("/admin-register");
           }
         }).catch( err => res.json(err));
       }
@@ -540,7 +541,7 @@ router.post("/admin-signup", (req, res) => {
   const {username, password, confirmPassword } = req.body;
 
   if (password.length < 6){
-    req.flash("signup_msg", "Password Must be More than 6 characters");
+    req.flash(`signup_msg`, "Password Not up to 6 characters");
     res.redirect("/admin-register");
   }
   
@@ -582,8 +583,8 @@ router.post("/coupon/delete", (req, res) => {
     }
   },{safe: true, upsert: true}).then( pulled => {
     if (pulled) {
-      req.flash("signup_msg", "Coupon Successfully Deleted");
-      res.redirect("/profile")
+      req.flash(`signup_msg`, "Coupon Successfully Deleted");
+      res.redirect("/admin-register");
     }
   })
 });
