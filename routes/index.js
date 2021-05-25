@@ -483,7 +483,7 @@ router.post("/generate", ensureAuthenticated, (req, res) => {
         }).then( updated => {
           if (updated) {
             req.flash(`signup_msg`, "Coupon Successfully Generated");
-            res.redirect("/admin-register");
+            res.redirect("/profile");
           }
         }).catch( err => res.json(err));
       }
@@ -584,7 +584,7 @@ router.post("/coupon/delete", (req, res) => {
   },{safe: true, upsert: true}).then( pulled => {
     if (pulled) {
       req.flash(`signup_msg`, "Coupon Successfully Deleted");
-      res.redirect("/admin-register");
+      res.redirect("/profile");
     }
   })
 });
