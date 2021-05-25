@@ -45,15 +45,15 @@
             <div class="container">
                 
                 <div class="profilerow">
+
+                    <div class="profilecontain profileone">
+                        <div class="profile-col-img">
+                            <img src="/images/mph.jpg" alt="">
+                        </div>
+                    </div>
                     <div class="profilecontain login-col-2">
                         <h2>Generate Coupon</h2>
                         <%- include("./partials/messages") %>
-                        <!-- <form action="/generate" method="POST"> 
-                            <input type="text" name="package"  id="" placeholder="Package Name" required>
-                            <input type="text" name="price" id="" placeholder="Enter Price of Coupon" required>
-                            <input type="text" name="ROI" id="" placeholder="Expected ROI After 30 days" required>
-                            <button type="submit">Generate Coupon</button>
-                        </form> -->
                         <form action="/generate" method="POST">
                             <select name="package" id="myselect" required>
                                 <option value="">Select An Investment Plan</option>
