@@ -507,6 +507,10 @@ nav a{
         display: grid;
         grid-template-columns: 100%;
         align-items: center;
+        gap: 25rem;
+    }
+    .profilecontain{
+        padding: 1rem;
     }
 }
 
