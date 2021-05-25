@@ -46,12 +46,15 @@
                 
                 <div class="profilerow">
 
+                    <div class="profilecontain login-col-2">
+                        <%- include("./partials/messages") %>
+                    </div>
+
                     <div class="profilecontain profileone">
                         <div class="profile-col-img"></div>
                     </div>
                     <div class="profilecoupon login-col-2">
                         <h2>Generate Coupon</h2>
-                        <%- include("./partials/messages") %>
                         <form action="/generate" method="POST">
                             <select name="package" id="myselect" required>
                                 <option value="">Select An Investment Plan</option>

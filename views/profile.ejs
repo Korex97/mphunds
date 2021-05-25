@@ -55,12 +55,15 @@
                         <div class="profile-col-img">
                             <img src="/images/profile.jpg" alt="">
                         </div>
+
+                        <div class="profilecontain login-col-2">
+                            <%- include("./partials/messages") %>
+                        </div>
                         
-                        <%- include("./partials/messages") %>
+                        
 
                         <div class="profilecontain login-col-2">
                             <h2>Activate Coupon Here To Fund Your Account</h2>
-                            <%- include("./partials/messages") %>
                             <form action="/activate" method="POST"> 
                                 <input type="text" name="coupon" id="" placeholder="Enter Coupon Code" required>
                                 <button type="submit">Activate Coupon</button>
