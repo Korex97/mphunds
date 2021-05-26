@@ -30,8 +30,8 @@
                     </div>
                 </div>
                 <ul class="navul">
-                    <li><a href="/edit-admin/<%= admin %>">Edit Admin Details</a></li>
 					<li><a href="/logout">LogOut</a></li>
+					<li><a href="/edit-admin/<%= admin %>">Edit Admin</a></li>
                 </ul>
             </div>
         </nav>
@@ -47,11 +47,11 @@
 			</div>
             <div class="container">
                 <div class="profilerow">
-                    <div class="profilecontain">
+                    <div class="profilecontain login-col-2">
                         <%- include("./partials/messages") %>
                         <h2 class="title1">Tables</h2>
 					
-						<div class="panel-body widget-shadow">
+						<div class="panel-body widget-shadow" style="overflow-x: auto;">
 							<h4>Users Information</h4>
 							<table class="table">
 							<thead>
