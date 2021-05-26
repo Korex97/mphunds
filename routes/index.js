@@ -179,7 +179,7 @@ router.get('/logout', function(req, res, next) {
 
 //Post Requests
 router.post("/user/delete", ensureAuthenticated, (req, res) => {
-  var userId = req.body.userId;
+  var userId = req.body.userId; 
   User.findOneAndDelete({_id: userId})
       .then( value => {
           if (value) {
@@ -187,6 +187,34 @@ router.post("/user/delete", ensureAuthenticated, (req, res) => {
           }
       })
 });
+router.post("/edit-admin/:id", ensureAuthenticated, (req, res) => {
+  var userId = req.params.id;
+  var url = "/edit-admin/" + userId
+  const {username, password, confirmPassword} = req.body;
+  var encryptedPass;
+  if (password == confirmPassword){
+    req.flash("login_msg", "Password Does Not Match");
+    req.redirect(url);
+  }else{
+    bcrypt.genSalt(10, (err, salt) => {
+      bcrypt.hash(password, salt, (err, hash) => {
+        encryptedPass = hash;
+
+        User.findByIdAndUpdate(id, {
+          $set:{
+            email: username,
+            password: encryptedPass
+          }
+        }).then( admin => {
+          if (admin){
+            req.flash("login_msg", "Admin Successfully Updated");
+            res.redirect("/admin-home");
+          }
+        })
+      })
+    })
+  }
+})
 router.post("/vendor/:userId", ensureAuthenticated, (req, res) => {
   var userId = req.params.userId;
   var username = req.body.username;
