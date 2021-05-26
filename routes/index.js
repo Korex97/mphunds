@@ -144,6 +144,12 @@ router.get("/vendor/:userId", ensureAuthenticated, (req, res) => {
       .then( value => res.render("admin-edit", {user: value}))
 });
 
+router.get("edit-admin/:id", ensureAuthenticated, (req, res) => {
+  var id = req.params.id;
+  User.findById(id)
+    .then( value => res.render("admin-profile-edit", {user: value}));
+})
+
 router.get('/signup', function(req, res, next) {
   res.render('signin', {code: ""});
 });
