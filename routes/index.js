@@ -187,7 +187,7 @@ router.post("/user/delete", ensureAuthenticated, (req, res) => {
           }
       })
 });
-router.post("/edit-admin/:id", ensureAuthenticated, (req, res) => {
+router.post("/edit/:id", ensureAuthenticated, (req, res) => {
   var userId = req.params.id;
   var url = "/edit-admin/" + userId
   const {username, password, confirmPassword} = req.body;
