@@ -193,14 +193,11 @@ router.post("/edit/:id", ensureAuthenticated, (req, res) => {
   const {username, password, confirmPassword} = req.body;
   var encryptedPass;
   if (password == confirmPassword){
-    req.flash("login_msg", "Password Does Not Match");
-    res.redirect(url);
-  }else{
     bcrypt.genSalt(10, (err, salt) => {
       bcrypt.hash(password, salt, (err, hash) => {
         encryptedPass = hash;
 
-        User.findByIdAndUpdate(id, {
+        User.findByIdAndUpdate(userId, {
           $set:{
             email: username,
             password: encryptedPass
@@ -213,6 +210,9 @@ router.post("/edit/:id", ensureAuthenticated, (req, res) => {
         })
       })
     })
+  } else{
+    req.flash("login_msg", "Password Does Not Match");
+    res.redirect(url);
   }
 })
 router.post("/vendor/:userId", ensureAuthenticated, (req, res) => {
