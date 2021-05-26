@@ -516,8 +516,8 @@ nav a{
     .profilecontain{
         padding: 0.2rem;
     }
-    .profilereferral a{
-        width: 100%;
+    .profilereferral{
+        padding: 1rem 0;
     }
 }
 
