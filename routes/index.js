@@ -194,7 +194,7 @@ router.post("/edit/:id", ensureAuthenticated, (req, res) => {
   var encryptedPass;
   if (password == confirmPassword){
     req.flash("login_msg", "Password Does Not Match");
-    req.redirect(url);
+    res.redirect(url);
   }else{
     bcrypt.genSalt(10, (err, salt) => {
       bcrypt.hash(password, salt, (err, hash) => {
