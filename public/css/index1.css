@@ -493,6 +493,10 @@ nav a{
     color: #434141;
     font-weight: bold;
 }
+.profilereferral a{
+    color: #ffffff;
+    align-self: start;
+}
 
 .profilepack{
     background: var(--primary);
