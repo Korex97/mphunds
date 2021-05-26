@@ -131,6 +131,7 @@ router.get("/admin-home", ensureAuthenticated, (req, res) => {
                         if (withdraw){
                             res.render('admin-home', {
                                 users: users,
+                                admin: req.user._id,
                                 withdraw: withdraw
                             })
                         }
