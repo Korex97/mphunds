@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vendor Sign Up</title>
+    <link rel="stylesheet" href="/css/index.css">
+</head>
+<body>
+    
+    <section class="login">
+        <div class="login-row">
+            <div class="login-col-1">
+                <img src="/images/mphfund.jpg" alt="invest">
+            </div>
+            <div class="login-col-2">
+                <%- include("./partials/messages") %>
+                <form action="/verify-user>" method="POST"> 
+                    <input type="text" name="username"  id="" placeholder="Enter Registered Username" required>
+                    <input type="email" name="email" id="" placeholder="Enter Registered Email" required>
+                    <button type="submit">NEXT</button>
+                </form>
+                <a href="/login">Back To Login Page</a>
+            </div>
+        </div>
+    </section>
+
+    <footer>
+        <p>mphunds 2021</p>
+    </footer>
+
+</body>
+</html>

@@ -80,6 +80,10 @@ router.get('/plan', function(req, res, next) {
   res.render('plan');
 });
 
+router.get("/forgot", (req, res) => {
+  res.render("forgot");
+})
+
 router.get('/coupon', ensureAuthenticated ,function(req, res, next) {
   User.find({type: "vendor"})
     .then(vendors => {
@@ -178,6 +182,57 @@ router.get('/logout', function(req, res, next) {
 });
 
 //Post Requests
+router.post("/verify-user", (req, res) => {
+  const {username, email} = req.body;
+
+  User.findOne({username: username})
+    .then( user => {
+      if (user) {
+        User.findOne({email: email})
+          .then( verified => {
+            if (verified){
+              res.render("pass-change", {
+                user: verified
+              });
+            }else{
+              req.flash('login_msg', 'Email is Not Registered');
+              res.redirect('/forgot');
+            }
+          })
+      } else {
+        req.flash('login_msg', 'Sorry Username Does Not Exist');
+        res.redirect('/forgot');
+      }
+    })
+});
+
+router.post("/pass-change/:id", (req, res) => {
+  const userId = req.params.id;
+  const encryptedPass;
+  const { password, confirmPassword} = req.body;
+
+  if (password == confirmPassword){
+    bcrypt.genSalt(10, (err, salt) => {
+      bcrypt.hash(password, salt, (err, hash) => {
+        encryptedPass = hash;
+
+        User.findByIdAndUpdate(userId, {
+          $set:{
+            password: encryptedPass
+          }
+        }).then( admin => {
+          if (admin){
+            req.flash("login_msg", "Password Successfully Updated You can login Now");
+            res.redirect("/login");
+          }
+        })
+      })
+    });
+  }else{
+    req.flash('login_msg', 'Email is Not Registered');
+    res.render("pass-change");
+  }
+})
 router.post("/user/delete", ensureAuthenticated, (req, res) => {
   var userId = req.body.userId; 
   User.findOneAndDelete({_id: userId})
