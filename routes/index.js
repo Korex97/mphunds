@@ -211,6 +211,11 @@ router.post("/pass-change/:id", (req, res) => {
   let encryptedPass;
   const { password, confirmPassword} = req.body;
 
+  if (password.length < 6){
+    req.flash('login_msg', 'Email is Not Registered');
+    res.render("pass-change");
+  }
+
   if (password == confirmPassword){
     bcrypt.genSalt(10, (err, salt) => {
       bcrypt.hash(password, salt, (err, hash) => {
