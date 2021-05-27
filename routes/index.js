@@ -208,7 +208,7 @@ router.post("/verify-user", (req, res) => {
 
 router.post("/pass-change/:id", (req, res) => {
   const userId = req.params.id;
-  const encryptedPass;
+  let encryptedPass;
   const { password, confirmPassword} = req.body;
 
   if (password == confirmPassword){
