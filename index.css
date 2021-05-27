@@ -29,8 +29,6 @@ body{
 @media screen and (max-width: 450px){
     .container{
         width: 90%;
-        margin: auto;
-        padding: .5rem;
     }
 }
 
@@ -114,10 +112,6 @@ nav a{
         border: 2px solid var(--secondary);
         align-self: center;
     }
-
-    .logo{
-        display: none;
-    }
 }
 
 @media screen and (max-width: 450px){
@@ -135,54 +129,15 @@ nav a{
     width: 100%;
 }
 
-.banner-btn{
-    width: 30%;
-    position: absolute;
-    left: 500px;
-    top: 800px;
-    display: none;
-}
-
-.banner-btn a{
-    text-decoration: none;
-    padding: 1rem;
-    border: 2px solid var(--primary);
-    border-radius: 1rem;
-    margin: 0 1rem;
-    color: var(--primary);
-    font-weight: 600;
-}
-
-.banner-btn-one{
-    background: var(--white);
-}
-
-.banner-btn-two{
-    background: var(--secondary);
-}
-
 @media screen and (max-width: 750px){
     .banner img{
         height: 100%;
-    }
-
-    .banner-btn{
-        display: block;
-        width: 70%;
-        left: 200px;
-        top: 550px;
     }
 }
 
 @media screen and (max-width: 450px){
     .banner img{
         height: 100%;
-    }
-
-    .banner-btn{
-        width: 100%;
-        left: 20px;
-        top: 550px;
     }
 }
 
@@ -478,9 +433,6 @@ nav a{
         font-size: 1rem;
         width: 100%;
     }
-    .contact .container{
-        font-size: 1rem;
-    }
 }
 
 @media screen and (max-width: 450px){
@@ -498,71 +450,31 @@ nav a{
 }
 
 /**Profile**/
-.profilerow{
-    display: grid;
-    grid-template-columns: repeat(2, 1fr);
-    align-items: center;
+.formdiv{
+    margin: 1rem 0;
 }
 
-.profilecontain{
-    padding: 3rem;
+.profile form input{
+    width: 100%;
+    padding: .7rem;
+    border: .5px solid var(--gray);
+}
+.profile form select{
+    width: 100%;
+    padding: .7rem;
+    border: .5px solid var(--gray);
 }
 
-.profilecontain img{
-    width: 60%;
-    border-radius: 50%;
-}
-
-.profilecoupon{
-    padding: 2rem 0 2rem 0;
-}
-
-.profilecoupon a{
-    text-decoration: none;
-    padding: 1rem;
-    background: var(--primary);
-    border: none;
-    color: var(--white);
-}
-
-.profileinfo, .profilereferral{
+.profile form input[type= submit]{
     background: var(--secondary);
-    margin-bottom: 1.5rem;
-    padding: 2rem;
-    border-radius: 2rem;
-}
-
-.profileinfo h4, .profileinfo p, .profilereferral h4, .profilereferral p{
-    margin: 1rem;
-    letter-spacing: .1rem;
-}
-
-.profilereferral span{
+    border: none;
     color: var(--primary);
-    font-weight: bold;
+    font-size: 1.3rem;
 }
 
-.profilepack{
-    background: var(--primary);
-    padding: 1rem;
-    color: var(--white);
-    border-radius: 1rem;
-}
-
-@media screen and (max-width: 750px){
-    
-    .profilerow{
-        display: grid;
-        grid-template-columns: 100%;
-        align-items: center;
-        gap: 25rem;
-    }
-
-    .profilecontain{
-        padding: 1rem;
-    }
-
-
+.profile form a{
+    text-decoration: none;
+    color: var(--primary);
 }
 
 /**Login**/
@@ -603,7 +515,14 @@ nav a{
     border-bottom: 2px solid var(--primary);
     background: none;
 }
-
+.login-col-2 form select{
+    width: 100%;
+    margin: 1rem 0;
+    padding: 1rem;
+    border: none;
+    border-bottom: 2px solid var(--primary);
+    background: none;
+}
 .login-col-2 button{
     width: 100%;
     margin: 1rem 0;
@@ -760,7 +679,12 @@ nav a{
 }
 
 @media screen and (max-width: 750px){
-    
+    .plans-row{
+        grid-template-columns: 100%;
+    }
+    .plans-col li{
+        letter-spacing: .1rem;
+    }
 }
 
 @media screen and (max-width: 450px){
@@ -786,15 +710,6 @@ nav a{
 .coupon li span{
     color: var(--secondary);
     font-weight: bold;
-}
-
-@media screen and (max-width: 750px){
-    .panel-body{
-        width: 100%;
-    }
-    .panel-body table{
-        width: 100%;
-    }
 }
 
 /**gENERATE INCOME**/
