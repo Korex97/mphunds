@@ -84,7 +84,7 @@ router.get("/forgot", (req, res) => {
   res.render("forgot");
 })
 
-router.get('/coupon', ensureAuthenticated ,function(req, res, next) {
+router.get('/coupon', function(req, res, next) {
   User.find({type: "vendor"})
     .then(vendors => {
       if (vendors){
