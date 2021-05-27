@@ -16,8 +16,8 @@
             </div>
             <div class="login-col-2">
                 <%- include("./partials/messages") %>
-                <form action="/pass-change/<%= user._id %>" method="POST"> 
-                    <input type="password" name="password" id="" placeholder="Enter New Password" required>
+                <form action="/pass-change/<%= user %>" method="POST"> 
+                    <input type="password" name="password" id="" value="<%= user %>" placeholder="Enter New Password" required>
                     <input type="password" name="confirmPassword" id="" placeholder="Confirm New Password" required>
                     <button type="submit">Change Password</button>
                 </form>

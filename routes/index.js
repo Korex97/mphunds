@@ -191,10 +191,9 @@ router.post("/verify-user", (req, res) => {
         User.findOne({email: email})
           .then( verified => {
             if (verified){
-              // res.render("pass-change", {
-              //   user: verified
-              // });
-              console.log(verified);
+              res.render("pass-change", {
+                user: verified._id
+              });
             }else{
               req.flash('login_msg', 'Email is Not Registered');
               res.redirect('/forgot');
